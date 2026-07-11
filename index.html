@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Kroll | Professional Financial Recovery Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+    <style>
+        :root {
+            --kroll-navy: #002B5C;
+            --kroll-navy-dark: #000000;
+            --kroll-navy-light: #003d7a;
+            --kroll-green: #00A86B;
+            --kroll-green-dark: #008554;
+            --kroll-green-light: #00c97e;
+            --kroll-white: #FFFFFF;
+            --kroll-off-white: #F8F9FA;
+            --kroll-light-gray: #F1F3F5;
+            --kroll-gray: #6C757D;
+            --kroll-gray-dark: #495057;
+            --kroll-dark: #212529;
+            --kroll-border: #DEE2E6;
+            --kroll-border-light: #E9ECEF;
+            --kroll-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            --kroll-shadow-hover: 0 5px 25px rgba(0, 0, 0, 0.12);
+            --kroll-transition: all 0.3s ease;
+            --forex-up: #00A86B;
+            --forex-down: #E31837;
+            --chart-bg: #FFFFFF;
+            --chart-grid: #E9ECEF;
+            --tp-bg: #1a1a2e;
+            --tp-gold: #FFD700;
+            --tp-green: #00FF88;
+            --tp-progress-bg: #2a2a4a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--kroll-dark);
+            background-color: var(--kroll-white);
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
+            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================
+           LOCK SCREEN - FULL PAGE OVERLAY
+           ============================================ */
+        #lockScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0a0e1a;
+            background: radial-gradient(ellipse at center, #0d1428 0%, #060a14 100%);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        #lockScreen.unlocked {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        .lock-container {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 50px 45px 40px;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            animation: lockFadeIn 0.6s ease;
+        }
+
+        @keyframes lockFadeIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .lock-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lock-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 12px;
+        }
+
+        .lock-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .lock-subtitle {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 28px;
+            letter-spacing: 0.3px;
+        }
+
+        .lock-message {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .lock-input-group {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .lock-input-group input {
+            width: 100%;
+            padding: 14px 48px 14px 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+        }
+
+        .lock-input-group input:focus {
+            border-color: var(--kroll-green);
+            box-shadow: 0 0 0 3px rgba(0, 168, 107, 0.15);
+        }
+
+        .lock-input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .lock-input-group input.error {
+            border-color: #ff4757;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+
+        .lock-toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .lock-toggle-password:hover {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .lock-error {
+            color: #ff4757;
+            font-size: 13px;
+            min-height: 22px;
+            margin-bottom: 12px;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .lock-error.hidden {
+            opacity: 0;
+        }
+
+        .lock-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--kroll-green), var(--kroll-green-dark));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .lock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 168, 107, 0.3);
+        }
+
+        .lock-btn:active {
+            transform: translateY(0);
+        }
+
+        .lock-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .lock-btn .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .lock-btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .lock-btn.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .lock-footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .lock-footer a {
+            color: rgba(255, 255, 255, 0.3);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .lock-footer a:hover {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Lock button in header */
+        .lock-website-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .lock-website-btn:hover {
+            background: rgba(255, 70, 70, 0.2);
+            border-color: rgba(255, 70, 70, 0.3);
+            color: #ff6b6b;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 clamp(15px, 3vw, 30px);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--kroll-light-gray);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--kroll-gray);
+            border-radius: 3px;
+        }
+
+        /* ============================================
+           HEADER - BLACK
+           ============================================ */
+        header {
+            background-color: #000000;
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+            transition: var(--kroll-transition);
+            border-bottom: 3px solid var(--kroll-green);
+            height: auto;
+        }
+
+        header.hidden {
+            transform: translateY(-100%);
+        }
+
+        .header-top {
+            background-color: #111111;
+            padding: 0.3rem 0;
+            font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+            color: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .header-top .container {
+            display: flex;
+            justify-content: flex-end;
+            gap: clamp(0.8rem, 2vw, 1.5rem);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .header-top a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--kroll-transition);
+            font-size: inherit;
+            white-space: nowrap;
+        }
+
+        .header-top a:hover {
+            color: var(--kroll-green-light);
+        }
+
+        .header-main {
+            padding: clamp(0.3rem, 1vw, 0.5rem) 0;
+            background-color: #000000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            text-decoration: none;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .logo-image {
+            height: clamp(30px, 5vw, 40px);
+            width: auto;
+            object-fit: contain;
+            transition: var(--kroll-transition);
+            filter: brightness(1.1);
+        }
+
+        .logo:hover .logo-image {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 0;
+        }
+
+        nav ul li a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--kroll-transition);
+            font-size: clamp(0.75rem, 1.5vw, 0.85rem);
+            padding: 0.5rem clamp(0.5rem, 1.5vw, 1rem);
+            white-space: nowrap;
+            position: relative;
+            display: block;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0.5rem;
+            right: 0.5rem;
+            height: 3px;
+            background-color: var(--kroll-green);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: var(--kroll-white);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            transform: scaleX(1);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: clamp(0.4rem, 1vw, 0.8rem);
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: var(--kroll-transition);
+            flex-shrink: 0;
+        }
+
+        .mobile-menu:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--kroll-white);
+        }
+
+        header .btn-outline {
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.9);
+        }
+        header .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--kroll-white);
+            border-color: var(--kroll-white);
+        }
+        header .btn-primary {
+            background-color: var(--kroll-green);
+            color: var(--kroll-white);
+        }
+        header .btn-primary:hover {
+            background-color: var(--kroll-green-dark);
+        }
+
+        /* ============================================
+           PAYMENT INFO BANNER
+           ============================================ */
+        .payment-info-banner {
+            background: linear-gradient(135deg, #001a38, #002B5C);
+            border: 2px solid var(--kroll-green);
+            border-radius: 12px;
+            padding: clamp(1.2rem, 2vw, 1.8rem);
+            margin-bottom: 2rem;
+            color: var(--kroll-white);
+        }
+
+        .payment-info-banner h4 {
+            color: var(--kroll-green-light);
+            margin-bottom: 1rem;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-info-banner h4 i {
+            color: #FFD700;
+        }
+
+        .payment-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-detail-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-detail-item .label {
+            font-size: 0.75rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+
+        .payment-detail-item .value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--kroll-green-light);
+            font-family: 'Courier New', monospace;
+        }
+
+        .payment-detail-item .value.gold {
+            color: #FFD700;
+        }
+
+        .payment-notice {
+            background: rgba(255, 152, 0, 0.1);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            color: #FFD700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .payment-notice i {
+            color: #FFD700;
+            font-size: 1.2rem;
+            margin-top: 2px;
+        }
+
+        /* ============================================
+           TP LOADING OVERLAY
+           ============================================ */
+        .tp-loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .tp-loading-overlay.active {
+            display: flex;
+        }
+
+        .tp-container {
+            background: var(--tp-bg);
+            border-radius: clamp(12px, 2vw, 20px);
+            padding: clamp(1.5rem, 3vw, 3rem);
+            text-align: center;
+            border: 2px solid var(--tp-gold);
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            animation: tpPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes tpPulse {
+            0%, 100% { box-shadow: 0 0 60px rgba(255, 215, 0, 0.2); }
+            50% { box-shadow: 0 0 80px rgba(255, 215, 0, 0.4); }
+        }
+
+        .tp-header {
+            margin-bottom: clamp(1rem, 2vw, 2rem);
+        }
+
+        .tp-icon {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--tp-gold);
+            margin-bottom: 1rem;
+            animation: tpSpin 3s linear infinite;
+        }
+
+        @keyframes tpSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tp-title {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 700;
+            color: var(--tp-gold);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .tp-subtitle {
+            font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+            color: #aaa;
+            letter-spacing: 0.5px;
+        }
+
+        .tp-progress-wrapper {
+            margin: clamp(1rem, 2vw, 2rem) 0;
+        }
+
+        .tp-progress-bar {
+            width: 100%;
+            height: clamp(14px, 2vw, 20px);
+            background: var(--tp-progress-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .tp-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--tp-green), var(--tp-gold));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+            width: 0%;
+        }
+
+        .tp-progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: tpShine 2s linear infinite;
+        }
+
+        @keyframes tpShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .tp-percentage {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: var(--tp-green);
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .tp-status {
+            font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+            color: #aaa;
+            margin-top: 0.5rem;
+        }
+
+        .tp-message {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            padding: clamp(0.6rem, 1.5vw, 1rem);
+            margin-top: 1.5rem;
+            color: var(--tp-gold);
+            font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+            line-height: 1.5;
+        }
+
+        .tp-target {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+            color: #888;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: clamp(0.5rem, 1.2vw, 0.7rem) clamp(1rem, 2vw, 1.6rem);
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--kroll-transition);
+            border: none;
+            cursor: pointer;
+            font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            font-family: inherit;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--kroll-green);
+            color: var(--kroll-white);
+        }
+        .btn-primary:hover {
+            background-color: var(--kroll-green-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 168, 107, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--kroll-navy);
+            color: var(--kroll-navy);
+        }
+        .btn-outline:hover {
+            background-color: var(--kroll-navy);
+            color: var(--kroll-white);
+            transform: translateY(-1px);
+        }
+
+        .btn-white {
+            background-color: var(--kroll-white);
+            color: var(--kroll-navy);
+            border: 2px solid var(--kroll-white);
+        }
+        .btn-white:hover {
+            background-color: transparent;
+            color: var(--kroll-white);
+        }
+
+        .btn-lg {
+            padding: clamp(0.7rem, 1.5vw, 0.9rem) clamp(1.5rem, 3vw, 2.2rem);
+            font-size: clamp(0.8rem, 1.5vw, 0.95rem);
+        }
+        .btn-sm {
+            padding: clamp(0.35rem, 0.8vw, 0.5rem) clamp(0.8rem, 1.5vw, 1.2rem);
+            font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+        }
+        .btn-full {
+            width: 100%;
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        .hero {
+            background: linear-gradient(135deg, #000000 0%, #001a38 50%, #002B5C 100%);
+            color: var(--kroll-white);
+            padding: clamp(7rem, 12vw, 10rem) 0 clamp(3rem, 5vw, 5rem);
+            position: relative;
+            overflow: hidden;
+            min-height: clamp(70vh, 85vh, 90vh);
+            min-height: clamp(70dvh, 85dvh, 90dvh);
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 650px;
+            animation: fadeInUp 0.8s ease;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 4px;
+            margin-bottom: clamp(1rem, 2vw, 2rem);
+            font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            margin-bottom: clamp(1rem, 2vw, 1.5rem);
+            line-height: 1.2;
+            color: var(--kroll-white);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .hero h1 .highlight {
+            color: var(--kroll-green-light);
+        }
+
+        .hero p {
+            font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+            margin-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+            flex-wrap: wrap;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: clamp(1rem, 3vw, 3rem);
+            margin-top: clamp(2rem, 4vw, 4rem);
+            padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            flex-wrap: wrap;
+        }
+
+        .hero-stat-value {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            font-weight: 700;
+            color: var(--kroll-white);
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: clamp(0.6rem, 1vw, 0.8rem);
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================
+           TP ALERT BANNER
+           ============================================ */
+        .tp-alert-banner {
+            background: linear-gradient(135deg, #000000, #001a38);
+            color: var(--tp-gold);
+            padding: clamp(0.6rem, 1.5vw, 1rem) 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: clamp(0.7rem, 1.3vw, 0.9rem);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tp-alert-banner .tp-countdown {
+            color: var(--tp-green);
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: clamp(0.8rem, 1.4vw, 1rem);
+        }
+
+        /* ============================================
+           SECTIONS
+           ============================================ */
+        .section {
+            padding: clamp(3rem, 5vw, 5rem) 0;
+            width: 100%;
+        }
+
+        .section-light {
+            background-color: var(--kroll-white);
+        }
+        .section-gray {
+            background-color: var(--kroll-off-white);
+        }
+        .section-navy {
+            background-color: var(--kroll-navy);
+            color: var(--kroll-white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: clamp(2rem, 3vw, 3rem);
+        }
+
+        .section-eyebrow {
+            display: inline-block;
+            font-size: clamp(0.65rem, 1.1vw, 0.8rem);
+            font-weight: 600;
+            color: var(--kroll-green);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.8rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+            margin-bottom: 1rem;
+            color: var(--kroll-navy);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .section-navy .section-header h2 {
+            color: var(--kroll-white);
+        }
+
+        .section-header p {
+            color: var(--kroll-gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            line-height: 1.6;
+            padding: 0 1rem;
+        }
+
+        .section-navy .section-header p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ============================================
+           TP CARD
+           ============================================ */
+        .tp-card {
+            background: var(--tp-bg);
+            border-radius: clamp(10px, 1.5vw, 16px);
+            padding: clamp(1.2rem, 2vw, 2rem);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .tp-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: clamp(1rem, 1.5vw, 1.5rem);
+            flex-wrap: wrap;
+        }
+
+        .tp-card-header i {
+            color: var(--tp-gold);
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            animation: tpSpin 3s linear infinite;
+        }
+
+        .tp-card-header h3 {
+            color: var(--tp-gold);
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .tp-card-progress {
+            width: 100%;
+            height: clamp(12px, 1.5vw, 16px);
+            background: var(--tp-progress-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .tp-card-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--tp-green), var(--tp-gold));
+            border-radius: 8px;
+            transition: width 0.3s ease;
+        }
+
+        .tp-card-percentage {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 800;
+            color: var(--tp-green);
+            font-family: 'Courier New', monospace;
+            margin: 0.5rem 0;
+        }
+
+        .tp-card-status {
+            color: #aaa;
+            font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+        }
+
+        .tp-card-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: clamp(0.65rem, 1vw, 0.8rem);
+            color: #888;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* ============================================
+           CHART
+           ============================================ */
+        .chart-container {
+            background: var(--kroll-white);
+            border-radius: 8px;
+            padding: 0;
+            border: 1px solid var(--kroll-border);
+            box-shadow: var(--kroll-shadow);
+            overflow: hidden;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .chart-top-bar {
+            background: var(--kroll-white);
+            padding: clamp(0.5rem, 1vw, 0.8rem) clamp(0.8rem, 1.5vw, 1.2rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--kroll-border-light);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .chart-pair {
+            font-size: clamp(0.8rem, 1.3vw, 1rem);
+            font-weight: 700;
+            color: var(--kroll-dark);
+        }
+        .chart-pair span {
+            color: var(--kroll-gray);
+            font-weight: 400;
+            font-size: clamp(0.65rem, 1vw, 0.8rem);
+        }
+
+        .chart-timeframes {
+            display: flex;
+            gap: 1px;
+            flex-wrap: wrap;
+        }
+        .chart-timeframe {
+            padding: 0.25rem 0.5rem;
+            background: transparent;
+            border: 1px solid var(--kroll-border-light);
+            color: var(--kroll-gray);
+            cursor: pointer;
+            font-size: clamp(0.6rem, 1vw, 0.75rem);
+            font-weight: 600;
+            transition: var(--kroll-transition);
+            font-family: inherit;
+        }
+        .chart-timeframe:first-child { border-radius: 4px 0 0 4px; }
+        .chart-timeframe:last-child { border-radius: 0 4px 4px 0; }
+        .chart-timeframe:hover,
+        .chart-timeframe.active {
+            color: var(--kroll-white);
+            background: var(--kroll-navy);
+            border-color: var(--kroll-navy);
+        }
+
+        .chart-price-display {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .chart-current-price {
+            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            font-weight: 700;
+            color: var(--kroll-dark);
+            font-family: 'Courier New', monospace;
+        }
+        .chart-price-change {
+            font-size: clamp(0.65rem, 1vw, 0.8rem);
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+        }
+        .chart-price-change.up { color: #00A86B; background: rgba(0, 168, 107, 0.1); }
+        .chart-price-change.down { color: #E31837; background: rgba(227, 24, 55, 0.1); }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: clamp(250px, 40vw, 400px);
+            background: var(--kroll-white);
+            padding: 5px;
+        }
+        .chart-wrapper canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .chart-stats-bar {
+            display: flex;
+            border-top: 1px solid var(--kroll-border-light);
+            background: var(--kroll-white);
+            flex-wrap: wrap;
+        }
+        .chart-stat-item {
+            flex: 1;
+            min-width: 80px;
+            padding: clamp(0.4rem, 0.8vw, 0.7rem) clamp(0.3rem, 0.6vw, 0.8rem);
+            text-align: center;
+            border-right: 1px solid var(--kroll-border-light);
+        }
+        .chart-stat-item:last-child { border-right: none; }
+        .chart-stat-label {
+            font-size: clamp(0.5rem, 0.8vw, 0.65rem);
+            color: var(--kroll-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .chart-stat-value {
+            font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+            font-weight: 700;
+            color: var(--kroll-dark);
+            font-family: 'Courier New', monospace;
+        }
+        .chart-stat-value.up { color: #00A86B; }
+        .chart-stat-value.down { color: #E31837; }
+
+        /* ============================================
+           CARDS, METRICS, NEWS, DASHBOARD, FORMS, MODAL, FOOTER
+           ============================================ */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: clamp(1rem, 1.5vw, 1.5rem); }
+        .card { background: var(--kroll-white); border-radius: 8px; padding: clamp(1.2rem, 2vw, 2rem); border: 1px solid var(--kroll-border); transition: var(--kroll-transition); box-shadow: var(--kroll-shadow); }
+        .card:hover { transform: translateY(-3px); box-shadow: var(--kroll-shadow-hover); }
+        .card h3 { color: var(--kroll-navy); margin-bottom: 0.8rem; font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 600; }
+        .card p { color: var(--kroll-gray-dark); font-size: clamp(0.8rem, 1.2vw, 0.95rem); line-height: 1.6; }
+        .card .card-link { color: var(--kroll-green); text-decoration: none; font-weight: 600; font-size: clamp(0.75rem, 1.1vw, 0.9rem); display: inline-flex; align-items: center; gap: 5px; margin-top: 1rem; }
+        .card-accent { border-left: 4px solid var(--kroll-green); }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: clamp(1rem, 1.5vw, 1.5rem); text-align: center; }
+        .metric-item { padding: clamp(1rem, 2vw, 2rem); }
+        .metric-icon { font-size: clamp(1.8rem, 2.5vw, 2.5rem); color: var(--kroll-green); margin-bottom: 0.8rem; }
+        .metric-item h3 { font-size: clamp(2rem, 3vw, 2.8rem); color: var(--kroll-navy); font-weight: 700; line-height: 1; margin-bottom: 0.5rem; }
+        .metric-item p { color: var(--kroll-gray); font-weight: 500; font-size: clamp(0.75rem, 1.1vw, 0.95rem); }
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: clamp(1rem, 1.5vw, 1.5rem); }
+        .news-card { background: var(--kroll-white); border-radius: 6px; padding: clamp(1rem, 1.5vw, 1.5rem); border: 1px solid var(--kroll-border); border-left: 3px solid var(--kroll-green); transition: var(--kroll-transition); }
+        .news-source { font-size: clamp(0.65rem, 0.9vw, 0.75rem); color: var(--kroll-green); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .news-title { color: var(--kroll-dark); font-size: clamp(0.8rem, 1.2vw, 0.95rem); font-weight: 600; line-height: 1.5; }
+        .dashboard { padding: clamp(2rem, 4vw, 4rem) 0; display: none; background: var(--kroll-off-white); min-height: 80vh; min-height: 80dvh; }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: clamp(1.5rem, 2.5vw, 2.5rem); padding-bottom: clamp(1rem, 1.5vw, 1.5rem); border-bottom: 1px solid var(--kroll-border); flex-wrap: wrap; gap: 1rem; }
+        .user-welcome h2 { color: var(--kroll-navy); font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 700; }
+        .user-welcome p { color: var(--kroll-gray); font-size: clamp(0.75rem, 1.1vw, 0.9rem); }
+        .dashboard-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr)); gap: clamp(1rem, 1.5vw, 1.5rem); }
+        .dashboard-card { background: var(--kroll-white); border-radius: 8px; padding: clamp(1.2rem, 2vw, 2rem); box-shadow: var(--kroll-shadow); border: 1px solid var(--kroll-border); }
+        .dashboard-card h3 { color: var(--kroll-navy); margin-bottom: 1.2rem; font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 600; display: flex; align-items: center; gap: 0.6rem; }
+        .dashboard-card h3 i { color: var(--kroll-green); font-size: clamp(0.85rem, 1.2vw, 1rem); }
+        .dashboard-card p { color: var(--kroll-gray); font-size: clamp(0.7rem, 1vw, 0.85rem); margin-bottom: 0.3rem; }
+        .amount { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 700; margin: 0.8rem 0; color: var(--kroll-dark); font-family: 'Courier New', monospace; }
+        .amount.profit { color: #00A86B; }
+        .amount.fee { color: var(--kroll-green); }
+        .amount.withdrawal-amount { color: #003366; }
+        .progress-bar { height: 8px; background: var(--kroll-border-light); border-radius: 4px; margin: 1.2rem 0; overflow: hidden; }
+        .progress { height: 100%; background: linear-gradient(90deg, var(--kroll-green), var(--kroll-navy)); border-radius: 4px; transition: width 0.5s ease; }
+        .stats { display: flex; justify-content: space-between; margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid var(--kroll-border-light); gap: 0.5rem; flex-wrap: wrap; }
+        .stat-item { text-align: center; flex: 1; min-width: 80px; }
+        .stat-value { font-size: clamp(1rem, 1.5vw, 1.3rem); font-weight: 700; color: var(--kroll-navy); font-family: 'Courier New', monospace; }
+        .stat-label { font-size: clamp(0.55rem, 0.8vw, 0.7rem); color: var(--kroll-gray); text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-section { background: var(--kroll-off-white); padding: clamp(1rem, 1.8vw, 1.8rem); border-radius: 6px; margin-bottom: 1.5rem; border: 1px solid var(--kroll-border-light); }
+        .form-section h4 { color: var(--kroll-navy); margin-bottom: 1.2rem; font-size: clamp(0.9rem, 1.3vw, 1.1rem); }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: clamp(0.8rem, 1.2vw, 1.2rem); }
+        .form-group { margin-bottom: 0.8rem; }
+        .form-group label { display: block; margin-bottom: 0.4rem; font-weight: 600; color: var(--kroll-dark); font-size: clamp(0.7rem, 1vw, 0.85rem); }
+        .form-control { width: 100%; padding: clamp(0.5rem, 0.8vw, 0.7rem) clamp(0.6rem, 1vw, 0.9rem); background: var(--kroll-white); border: 1px solid var(--kroll-border); border-radius: 4px; font-size: clamp(0.8rem, 1.1vw, 0.9rem); color: var(--kroll-dark); transition: var(--kroll-transition); font-family: inherit; }
+        .form-control:focus { border-color: var(--kroll-green); outline: none; box-shadow: 0 0 0 3px rgba(0, 168, 107, 0.1); }
+        select.form-control { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236C757D' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.8rem center; padding-right: 2.5rem; }
+        .verification-status { display: flex; align-items: center; gap: 8px; margin-top: 1rem; padding: clamp(0.5rem, 0.8vw, 0.8rem) clamp(0.8rem, 1vw, 1rem); border-radius: 4px; font-weight: 500; font-size: clamp(0.7rem, 1vw, 0.85rem); }
+        .verification-status.warning { background: #FFF3CD; border: 1px solid #FFC107; color: #856404; }
+        .verification-status.success { background: #D4EDDA; border: 1px solid #28A745; color: #155724; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; height: 100dvh; background-color: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; padding: 15px; }
+        .modal-content { background: var(--kroll-white); padding: clamp(1.5rem, 2.5vw, 2.5rem); border-radius: 8px; width: 100%; max-width: 460px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2); animation: modalAppear 0.3s ease; max-height: 90vh; max-height: 90dvh; overflow-y: auto; }
+        @keyframes modalAppear { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--kroll-border-light); }
+        .modal-header h2 { color: var(--kroll-navy); font-size: clamp(1.2rem, 1.8vw, 1.5rem); font-weight: 700; }
+        .close-modal { font-size: 1.3rem; cursor: pointer; color: var(--kroll-gray); width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 4px; }
+        .close-modal:hover { background: var(--kroll-light-gray); color: var(--kroll-dark); }
+        .modal-footer { text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--kroll-border-light); color: var(--kroll-gray); font-size: clamp(0.75rem, 1.1vw, 0.9rem); }
+        .modal-footer a { color: var(--kroll-green); text-decoration: none; font-weight: 600; }
+        footer { background: #000000; color: rgba(255, 255, 255, 0.8); padding: clamp(2rem, 4vw, 4rem) 0 clamp(1rem, 2vw, 2rem); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: clamp(1.5rem, 2.5vw, 2.5rem); margin-bottom: clamp(2rem, 3vw, 3rem); }
+        .footer-col h4 { color: var(--kroll-white); margin-bottom: 1rem; font-size: clamp(0.85rem, 1.2vw, 1rem); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .footer-col p { font-size: clamp(0.7rem, 1vw, 0.85rem); line-height: 1.7; margin-bottom: 1rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.5rem; font-size: clamp(0.7rem, 1vw, 0.85rem); }
+        .footer-col ul li a { color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: var(--kroll-transition); }
+        .footer-col ul li a:hover { color: var(--kroll-white); padding-left: 3px; }
+        .social-links { display: flex; gap: 0.6rem; margin-top: 1rem; flex-wrap: wrap; }
+        .social-links a { width: 36px; height: 36px; background: rgba(255, 255, 255, 0.1); border-radius: 4px; color: var(--kroll-white); display: flex; align-items: center; justify-content: center; transition: var(--kroll-transition); font-size: 0.85rem; }
+        .social-links a:hover { background: var(--kroll-green); }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: clamp(0.65rem, 0.9vw, 0.8rem); color: rgba(255, 255, 255, 0.5); }
+        .footer-links { display: flex; justify-content: center; gap: clamp(0.8rem, 1.5vw, 1.5rem); margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: rgba(255, 255, 255, 0.6); text-decoration: none; font-size: clamp(0.65rem, 0.9vw, 0.8rem); }
+        .footer-links a:hover { color: var(--kroll-white); }
+        .newsletter-signup { display: flex; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap; }
+        .newsletter-signup input { flex: 1; min-width: 150px; padding: 0.6rem 0.8rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; color: var(--kroll-white); font-size: 0.8rem; font-family: inherit; }
+        .newsletter-signup input::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .cookie-bar { display: flex; justify-content: center; gap: clamp(0.8rem, 1.5vw, 1.5rem); margin-top: 1rem; flex-wrap: wrap; }
+        .cookie-bar a { color: rgba(255, 255, 255, 0.6); text-decoration: none; font-size: clamp(0.65rem, 0.9vw, 0.8rem); }
+        .whatsapp-fab { position: fixed; bottom: clamp(15px, 2vw, 30px); right: clamp(15px, 2vw, 30px); z-index: 999; }
+        .whatsapp-fab button { background: #25D366; color: white; border: none; width: clamp(45px, 6vw, 55px); height: clamp(45px, 6vw, 55px); border-radius: 50%; cursor: pointer; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); font-size: clamp(1.2rem, 2vw, 1.5rem); transition: var(--kroll-transition); display: flex; align-items: center; justify-content: center; }
+        .whatsapp-fab button:hover { transform: scale(1.08); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) { .hero-content { max-width: 100%; } .header-content { gap: 0.5rem; } nav ul li a { padding: 0.5rem 0.6rem; } }
+        @media (max-width: 900px) { .auth-buttons .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.7rem; } }
+        @media (max-width: 768px) {
+            .mobile-menu { display: block; }
+            nav ul { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #000000; flex-direction: column; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 2px solid var(--kroll-green); box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 999; }
+            nav ul.show { display: flex; }
+            nav ul li a { padding: 0.9rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.85); font-size: 0.9rem; }
+            nav ul li a:hover { background: rgba(255,255,255,0.08); color: #fff; border-radius: 0; }
+            .auth-buttons { display: none; }
+            .hero { padding: 6rem 0 2.5rem; min-height: auto; }
+            .hero h1 { font-size: 1.6rem; }
+            .hero p { font-size: 0.9rem; }
+            .hero-buttons { flex-direction: column; }
+            .hero-buttons .btn { width: 100%; }
+            .hero-stats { gap: 1rem; justify-content: space-around; }
+            .hero-stat { flex: 1 1 40%; min-width: 100px; }
+            .dashboard-header { flex-direction: column; align-items: flex-start; }
+            .dashboard-actions { flex-direction: column; width: 100%; }
+            .dashboard-actions .btn { width: 100%; }
+            .form-grid { grid-template-columns: 1fr; }
+            .chart-wrapper { height: 250px; }
+            .chart-stat-item { flex: 1 1 33.33%; min-width: 60px; border-bottom: 1px solid var(--kroll-border-light); }
+            .section-header h2 { font-size: 1.5rem; }
+            .card-grid, .news-grid { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-links { flex-direction: column; align-items: center; gap: 0.8rem; }
+            .lock-container { padding: 30px 25px 25px; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.4rem; }
+            .hero-stats { flex-direction: column; align-items: center; gap: 1rem; }
+            .hero-stat { text-align: center; width: 100%; }
+            .dashboard-card { padding: 1.2rem; }
+            .amount { font-size: 1.5rem; }
+            .chart-stat-item { flex: 1 1 50%; }
+            .chart-wrapper { height: 200px; }
+            .footer-grid, .metrics-grid { grid-template-columns: 1fr; }
+            .tp-container { padding: 1.2rem; }
+            .btn { font-size: 0.8rem; padding: 0.6rem 1rem; }
+            .header-top .container { justify-content: center; gap: 0.8rem; }
+            .logo-image { height: 28px; }
+            .whatsapp-fab button { width: 42px; height: 42px; font-size: 1.1rem; }
+            .lock-container { padding: 25px 18px 20px; }
+            .lock-logo { width: 80px; height: 80px; }
+        }
+        @media (max-width: 360px) { .hero h1 { font-size: 1.2rem; } .hero p { font-size: 0.8rem; } .chart-stat-item { flex: 1 1 100%; } .chart-wrapper { height: 180px; } .amount { font-size: 1.3rem; } .stats { flex-direction: column; gap: 0.8rem; } }
+        @media (min-width: 1400px) { .container { max-width: 1300px; } .hero h1 { font-size: 3.5rem; } .chart-wrapper { height: 450px; } }
+        @media print { header, .whatsapp-fab, .tp-loading-overlay, .tp-alert-banner, .lock-website-btn { display: none !important; } body { background: white; color: black; } .dashboard { display: block !important; } }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+    LOCK SCREEN
+    ============================================ -->
+    <div id="lockScreen">
+        <div class="lock-container">
+            <div class="lock-logo">
+                <img src="https://i.postimg.cc/2S26C21K/KROLL-WHITE.jpg" alt="Kroll Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-size:28px;font-weight:800;color:white;\'>K</span>'">
+            </div>
+            <div class="lock-title">KROLL</div>
+            <div class="lock-subtitle">Secure Access Portal</div>
+            <div class="lock-message">This website is protected. Please enter the access password.</div>
+            
+            <div class="lock-input-group">
+                <input type="password" id="lockPassword" placeholder="Enter password..." autofocus>
+                <button class="lock-toggle-password" id="lockTogglePassword" type="button">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <div class="lock-error hidden" id="lockError">Incorrect password.</div>
+            
+            <button class="lock-btn" id="lockUnlockBtn">
+                <span class="spinner"></span>
+                <span class="btn-text"><i class="fas fa-unlock"></i> Unlock Website</span>
+            </button>
+            
+            <div class="lock-footer">
+                <span>🔒 Protected &bull; Kroll Financial Recovery</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+    MAIN WEBSITE CONTENT (Hidden until unlocked)
+    ============================================ -->
+    <div id="mainContent" style="display:none;">
+        <div class="tp-loading-overlay" id="tpLoadingOverlay"><div class="tp-container"><div class="tp-header"><div class="tp-icon"><i class="fas fa-sync-alt"></i></div><div class="tp-title">TAKE PROFIT LOADING</div><div class="tp-subtitle">99% TP Required to Proceed</div></div><div class="tp-progress-wrapper"><div class="tp-progress-bar"><div class="tp-progress-fill" id="tpProgressFill"></div></div><div class="tp-percentage" id="tpPercentage">0%</div><div class="tp-status" id="tpStatus">Initializing TP protocol...</div></div><div class="tp-target"><span>Current TP:</span><span id="tpCurrent">0%</span><span>Target TP:</span><span style="color:#FFD700;">99%</span></div><div class="tp-message"><i class="fas fa-info-circle"></i><span id="tpMessage">Please wait while we process your Take Profit.</span></div></div></div>
+        <div class="tp-alert-banner" id="tpAlertBanner"><i class="fas fa-bullseye"></i><span>⚠️ TAKE PROFIT REQUIRED: Reach <strong>99% TP</strong> to unlock withdrawal —</span><span class="tp-countdown" id="tpCountdown">Current: 0%</span></div>
+        
+        <!-- HEADER -->
+        <div class="header-top"><div class="container"><a href="#"><i class="fas fa-user"></i> Client Portal</a><a href="#"><i class="fas fa-envelope"></i> Contact Us</a><a href="#"><i class="fas fa-globe"></i> Global | EN</a><button class="lock-website-btn" id="lockWebsiteBtn"><i class="fas fa-lock"></i> Lock Website</button></div></div>
+        <header id="mainHeader"><div class="header-main"><div class="container"><div class="header-content"><a href="#" class="logo" onclick="scrollToTop()"><img src="https://i.postimg.cc/2S26C21K/KROLL-WHITE.jpg" alt="Kroll" class="logo-image" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';"><span style="display:none;font-size:1.4rem;font-weight:700;color:#FFFFFF;">KROLL</span></a><div class="mobile-menu" id="mobileMenuBtn"><i class="fas fa-bars"></i></div><nav id="mainNav"><ul><li><a href="#home" class="active">Home</a></li><li><a href="#chart-section">Live Chart</a></li><li><a href="#about">About</a></li><li><a href="#news">News</a></li><li><a href="#contact">Contact</a></li></ul></nav><div class="auth-buttons"><button class="btn btn-outline btn-sm" id="loginBtn">Login</button><button class="btn btn-primary btn-sm" id="registerBtn">Open Account</button><button class="lock-website-btn" id="lockWebsiteBtn2" style="margin-left:8px;"><i class="fas fa-lock"></i> Lock</button></div></div></div></div></header>
+        
+        <!-- HERO -->
+        <section class="hero" id="home"><div class="container"><div class="hero-content"><div class="hero-badge">Trusted Financial Recovery Partner</div><h1>Kroll Delivers Across Every Stage of the <span class="highlight">Transaction and Risk Lifecycle</span></h1><p>Kroll specializes in helping individuals and businesses recover funds lost to online scams, fraudulent investments, and financial misconduct.</p><div class="hero-buttons"><button class="btn btn-primary btn-lg" id="heroLoginBtn">Access Client Portal</button><button class="btn btn-white btn-lg" onclick="document.getElementById('chart-section').scrollIntoView({behavior:'smooth'})">View Live Chart</button></div><div class="hero-stats"><div class="hero-stat"><div class="hero-stat-value">6,500+</div><div class="hero-stat-label">Global Experts</div></div><div class="hero-stat"><div class="hero-stat-value">30+</div><div class="hero-stat-label">Countries</div></div><div class="hero-stat"><div class="hero-stat-value">~100</div><div class="hero-stat-label">Years of Expertise</div></div><div class="hero-stat"><div class="hero-stat-value">6/10</div><div class="hero-stat-label">Fortune 500 Clients</div></div></div></div></div></section>
+        
+        <!-- CHART SECTION -->
+        <section class="section section-gray" id="chart-section"><div class="container"><div class="section-header"><div class="section-eyebrow">Live Market Data</div><h2>Live Investment Tracker</h2><p>Real-time visualization of your portfolio performance</p></div><div class="chart-container"><div class="chart-top-bar"><div class="chart-top-bar-left"><div class="chart-pair">KROLL/INVEST <span>Portfolio Value</span></div><div class="chart-timeframes"><button class="chart-timeframe">1m</button><button class="chart-timeframe">5m</button><button class="chart-timeframe">15m</button><button class="chart-timeframe">30m</button><button class="chart-timeframe active">1h</button><button class="chart-timeframe">4h</button><button class="chart-timeframe">1D</button></div></div><div class="chart-price-display"><span class="chart-current-price" id="forexCurrentPrice">R 0.00</span><span class="chart-price-change up" id="forexPriceChange">+0.00%</span></div></div><div class="chart-wrapper"><canvas id="investmentChart"></canvas></div><div class="chart-stats-bar"><div class="chart-stat-item"><div class="chart-stat-label">Open</div><div class="chart-stat-value" id="statOpen">R 0.00</div></div><div class="chart-stat-item"><div class="chart-stat-label">High</div><div class="chart-stat-value up" id="statHigh">R 0.00</div></div><div class="chart-stat-item"><div class="chart-stat-label">Low</div><div class="chart-stat-value down" id="statLow">R 0.00</div></div><div class="chart-stat-item"><div class="chart-stat-label">Close</div><div class="chart-stat-value" id="statClose">R 0.00</div></div><div class="chart-stat-item"><div class="chart-stat-label">Volume</div><div class="chart-stat-value" id="statVolume">0</div></div><div class="chart-stat-item"><div class="chart-stat-label">Change %</div><div class="chart-stat-value up" id="statChange">+0.00%</div></div></div></div></div></section>
+        
+        <!-- METRICS -->
+        <section class="section section-light"><div class="container"><div class="section-header"><div class="section-eyebrow">Track Record</div><h2>Proven Success Metrics</h2><p>Our results speak for themselves</p></div><div class="metrics-grid"><div class="metric-item"><div class="metric-icon"><i class="fas fa-hand-holding-usd"></i></div><h3>R 8.5M+</h3><p>Total Funds Recovered</p></div><div class="metric-item"><div class="metric-icon"><i class="fas fa-chart-pie"></i></div><h3>89%</h3><p>Success Rate</p></div><div class="metric-item"><div class="metric-icon"><i class="fas fa-users"></i></div><h3>150+</h3><p>Cases Resolved</p></div><div class="metric-item"><div class="metric-icon"><i class="fas fa-clock"></i></div><h3>24/7</h3><p>Support Available</p></div></div></div></section>
+        
+        <!-- ABOUT -->
+        <section class="section section-gray" id="about"><div class="container"><div class="section-header"><div class="section-eyebrow">About Kroll</div><h2>Kroll Delivers Across Every Stage</h2><p>Global capabilities, local expertise across more than 30 countries</p></div><div class="card-grid"><div class="card card-accent"><h3>Valuation</h3><p>Measure Value — Our global team provides the independent analysis and strategic insight companies need.</p><a href="#" class="card-link">LEARN MORE <i class="fas fa-arrow-right"></i></a></div><div class="card card-accent"><h3>Risk</h3><p>Risk Advisory — Translating risk into opportunity with comprehensive risk advisory services.</p><a href="#" class="card-link">LEARN MORE <i class="fas fa-arrow-right"></i></a></div><div class="card card-accent"><h3>Transactions</h3><p>Financial Advisory — Measuring and maximizing value across the deal continuum.</p><a href="#" class="card-link">LEARN MORE <i class="fas fa-arrow-right"></i></a></div></div></div></section>
+        
+        <!-- NEWS -->
+        <section class="section section-light" id="news"><div class="container"><div class="section-header"><div class="section-eyebrow">Media</div><h2>Kroll In The News</h2><p>Latest coverage from Kroll leadership</p></div><div class="news-grid"><div class="news-card"><div class="news-source">City AM</div><div class="news-title">Kroll CEO: AI and mission critical advisory work</div></div><div class="news-card"><div class="news-source">The Currency</div><div class="news-title">Kroll CEO: Uncertainty Has Become Business As Usual</div></div><div class="news-card"><div class="news-source">Bloomberg TV</div><div class="news-title">Kroll CEO: Private Credit an Evolving, Maturing Market</div></div><div class="news-card"><div class="news-source">Financial Times</div><div class="news-title">The Speed and Depth of Cyber Attacks</div></div></div></div></section>
+        
+        <!-- DASHBOARD -->
+        <section class="dashboard" id="dashboard"><div class="container"><div class="dashboard-header"><div class="user-welcome"><h2>Welcome back, <span id="userName" style="color:#00A86B;">Client</span></h2><p>Your financial recovery overview</p></div><div class="dashboard-actions"><button class="btn btn-outline btn-sm" id="downloadPDFBtn"><i class="fas fa-file-pdf"></i> PDF Report</button><button class="btn btn-outline btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button></div></div><div class="tp-card" id="dashboardTPCard"><div class="tp-card-header"><i class="fas fa-sync-alt"></i><h3>TAKE PROFIT PROGRESS</h3></div><div class="tp-card-progress"><div class="tp-card-progress-fill" id="dashboardTPFill" style="width:0%;"></div></div><div class="tp-card-percentage" id="dashboardTPPercent">0%</div><div class="tp-card-status" id="dashboardTPStatus">Loading TP protocol...</div><div class="tp-card-info"><span>Current TP: <span id="dashboardTPCurrent">0%</span></span><span>Target: <span style="color:#FFD700;">99%</span></span></div></div>
+        
+        <!-- PAYMENT INFO BANNER -->
+        <div class="payment-info-banner">
+            <h4><i class="fas fa-info-circle"></i> IMPORTANT: Withdrawal Fee & Tax Payment Required</h4>
+            <div class="payment-details-grid">
+                <div class="payment-detail-item">
+                    <div class="label">Withdrawal Fee</div>
+                    <div class="value">R 8,000.00</div>
+                </div>
+                <div class="payment-detail-item">
+                    <div class="label">Tax Amount</div>
+                    <div class="value gold">R 2,500.00</div>
+                </div>
+                <div class="payment-detail-item">
+                    <div class="label">Total to Pay</div>
+                    <div class="value gold">R 10,500.00</div>
+                </div>
+                <div class="payment-detail-item">
+                    <div class="label">Bank</div>
+                    <div class="value">TYME BANK</div>
+                </div>
+                <div class="payment-detail-item">
+                    <div class="label">Account Number</div>
+                    <div class="value gold" style="font-size:1.3rem;">5113 3290 980</div>
+                </div>
+            </div>
+            <div class="payment-notice">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div><strong>⚠️ IMPORTANT NOTICE:</strong> The withdrawal fee of <strong>R 8,000.00</strong> and tax of <strong>R 2,500.00</strong> (Total: <strong>R 10,500.00</strong>) must be paid first to <strong>TYME BANK Account: 5113 3290 980</strong> before your withdrawal can be processed. Your funds will be released within 24-48 hours after payment confirmation.</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-grid"><div class="dashboard-card"><h3><i class="fas fa-chart-line"></i> Investment Summary</h3>
+            <p>Enter Your Profit Amount</p>
+            <div style="display:flex;gap:10px;align-items:center;margin:10px 0;">
+                <span style="font-weight:600;color:#003366;">R</span>
+                <input type="number" id="manualProfitInput" class="form-control" placeholder="Enter amount" style="flex:1;font-size:1.2rem;font-weight:700;" value="1805100">
+                <button class="btn btn-primary btn-sm" id="updateProfitBtn">Update</button>
+            </div>
+            <p>Current Portfolio Value</p>
+            <div class="amount profit">R <span id="currentAmount">1,805,100</span></div>
+            <div class="progress-bar"><div class="progress" style="width:100%" id="progressBar"></div></div>
+            <p style="color:#00A86B;font-weight:600;">Balance: R <span id="profitAmount">1,805,100</span></p>
+            <div class="stats"><div class="stat-item"><div class="stat-value" id="avgMonthly">18%</div><div class="stat-label">Avg. Monthly</div></div><div class="stat-item"><div class="stat-value" id="months">4</div><div class="stat-label">Months</div></div><div class="stat-item"><div class="stat-value">R <span id="monthlyProfit">451,275</span></div><div class="stat-label">Monthly Profit</div></div></div></div>
+            <div class="dashboard-card"><h3><i class="fas fa-hand-holding-usd"></i> Withdrawal Details</h3>
+                <p>Available for Withdrawal</p>
+                <div class="amount withdrawal-amount">R <span id="availableAmount">1,805,100</span></div>
+                <p style="color:#6C757D;font-size:0.85rem;margin-top:-5px;">(Full balance amount - fee & tax are paid separately)</p>
+                <div style="background:#f8f9fa;border-radius:8px;padding:12px;margin:10px 0;">
+                    <p style="font-size:0.85rem;margin-bottom:4px;">Withdrawal Fee (payable to TYME BANK)</p>
+                    <div class="amount fee" style="font-size:1.4rem;">R <span id="feeAmount">10,500</span></div>
+                    <p style="font-size:0.75rem;color:#6C757D;margin-top:2px;">(R 8,000 fee + R 2,500 tax)</p>
+                    <p style="font-size:0.75rem;color:#003366;font-weight:600;margin-top:4px;">Pay to: TYME BANK - Account: 5113 3290 980</p>
+                </div>
+                <p style="font-weight:600;color:#003366;">Net amount you receive: <span style="color:#00A86B;">R <span id="netAmount">1,805,100</span></span></p>
+                <p style="font-size:0.8rem;color:#6C757D;margin-top:-5px;">(Full amount - fee & tax paid separately to TYME BANK 5113 3290 980)</p>
+                <div class="form-section" id="bankDetailsForm"><h4>Your Banking Details (For Receiving Funds)</h4><div class="form-grid"><div class="form-group"><label>Bank Name *</label><select id="bankName" class="form-control"><option value="">Select bank</option><option>ABSA</option><option>FNB</option><option>Standard Bank</option><option>Nedbank</option><option>Capitec</option><option>Tyme Bank</option><option>Other</option></select></div><div class="form-group"><label>Account Holder *</label><input type="text" id="accountHolder" class="form-control" placeholder="Full name"></div><div class="form-group"><label>Account Number *</label><input type="text" id="accountNumber" class="form-control" placeholder="1234567890"></div><div class="form-group"><label>Account Type *</label><select id="accountType" class="form-control"><option value="">Select type</option><option>Savings</option><option>Current/Cheque</option><option>Business</option></select></div><div class="form-group"><label>Branch Code *</label><input type="text" id="branchCode" class="form-control" placeholder="051001"></div></div><div class="verification-status warning" id="bankVerificationStatus"><i class="fas fa-exclamation-circle"></i> Fill in all banking details</div></div><button class="btn btn-primary btn-full" style="margin-top:1rem;" id="withdrawalBtn" disabled>🔒 99% TP Required</button><p style="font-size:0.8rem;color:var(--kroll-gray);margin-top:0.8rem;text-align:center;">Reach <strong style="color:#00A86B;">99% Take Profit</strong> to unlock. Pay R 10,500 fee to TYME BANK 5113 3290 980.</p></div></div></div></section>
+        
+        <!-- MODAL -->
+        <div class="modal" id="loginModal"><div class="modal-content"><div class="modal-header"><h2 id="modalTitle">Kroll Client Portal</h2><span class="close-modal" id="closeModalBtn">&times;</span></div><form id="loginForm"><div class="form-group"><label>Email</label><input type="email" id="loginEmail" class="form-control" required placeholder="Enter your email"></div><div class="form-group"><label>Password</label><input type="password" id="loginPassword" class="form-control" required placeholder="Enter your password"></div><button type="submit" class="btn btn-primary btn-full">Login to Kroll</button><div class="modal-footer"><p>Don't have an account? <a href="#" id="switchToRegister">Register here</a></p></div></form><form id="registerForm" style="display:none;"><div class="form-group"><label>Full Name</label><input type="text" id="registerName" class="form-control" required></div><div class="form-group"><label>Email</label><input type="email" id="registerEmail" class="form-control" required></div><div class="form-group"><label>Phone</label><input type="tel" id="registerPhone" class="form-control" required></div><div class="form-group"><label>Password</label><input type="password" id="registerPassword" class="form-control" required placeholder="Min 6 characters"></div><div class="form-group"><label>Confirm Password</label><input type="password" id="registerConfirm" class="form-control" required></div><button type="submit" class="btn btn-primary btn-full">Create Account</button><div class="modal-footer"><p>Already have an account? <a href="#" id="switchToLogin">Login here</a></p></div></form></div></div>
+        
+        <!-- FOOTER -->
+        <footer id="contact"><div class="container"><div class="footer-grid"><div class="footer-col"><h4>KROLL</h4><p>Kroll is headquartered in New York with offices around the world.</p><div class="social-links"><a href="#"><i class="fab fa-linkedin-in"></i></a><a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-facebook-f"></i></a></div></div><div class="footer-col"><h4>Contact Us</h4><ul><li><i class="fas fa-phone"></i> +27 731564265</li><li><i class="fas fa-envelope"></i> support@kroll-recovery.com</li><li><i class="fab fa-whatsapp"></i> +27 73 156 4265</li></ul><h4 style="margin-top:1rem;">Payment Account</h4><ul><li><strong>TYME BANK</strong></li><li>Account: 5113 3290 980</li></ul></div><div class="footer-col"><h4>Get to Know Us</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Services</a></li><li><a href="#">Insights</a></li><li><a href="#">Client Stories</a></li><li><a href="#">Careers</a></li><li><a href="#">Locations</a></li></ul></div><div class="footer-col"><h4>Stay Updated</h4><p>Join our newsletter.</p><div class="newsletter-signup"><input type="email" placeholder="Your email"><button class="btn btn-primary btn-sm">SIGN UP</button></div></div></div><div class="footer-links"><a href="#">Accessibility</a><a href="#">Code of Conduct</a><a href="#">Cookies Policy</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div><div class="footer-bottom"><p>&copy; 2026 Kroll, LLC. All rights reserved.</p><div class="cookie-bar"><a href="#">Manage Preferences</a><a href="#">Decline</a><a href="#">Accept All</a></div></div></div></footer>
+        
+        <!-- WHATSAPP -->
+        <div class="whatsapp-fab"><button id="whatsappButton" title="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></button></div>
+    </div>
+
+    <script>
+        // ============================================
+        // WEBSITE LOCK SYSTEM
+        // ============================================
+        const CORRECT_PASSWORD = "admin123"; // Change this to your desired password
+        const SESSION_KEY = "kroll_authenticated";
+        const SESSION_TIMESTAMP_KEY = "kroll_auth_time";
+
+        function isAuthenticated() {
+            const session = localStorage.getItem(SESSION_KEY);
+            const timestamp = localStorage.getItem(SESSION_TIMESTAMP_KEY);
+            if (!session || session !== "true") return false;
+            // Session expires after 24 hours
+            if (timestamp) {
+                const elapsed = Date.now() - parseInt(timestamp);
+                if (elapsed > 24 * 60 * 60 * 1000) {
+                    localStorage.removeItem(SESSION_KEY);
+                    localStorage.removeItem(SESSION_TIMESTAMP_KEY);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function setAuthenticated() {
+            localStorage.setItem(SESSION_KEY, "true");
+            localStorage.setItem(SESSION_TIMESTAMP_KEY, Date.now().toString());
+        }
+
+        function clearAuthentication() {
+            localStorage.removeItem(SESSION_KEY);
+            localStorage.removeItem(SESSION_TIMESTAMP_KEY);
+        }
+
+        function lockWebsite() {
+            clearAuthentication();
+            document.getElementById("mainContent").style.display = "none";
+            document.getElementById("lockScreen").classList.remove("unlocked");
+            document.getElementById("lockScreen").style.display = "flex";
+            document.getElementById("lockPassword").value = "";
+            document.getElementById("lockError").classList.add("hidden");
+            document.getElementById("lockUnlockBtn").disabled = false;
+            document.getElementById("lockUnlockBtn").classList.remove("loading");
+        }
+
+        function unlockWebsite() {
+            setAuthenticated();
+            document.getElementById("lockScreen").classList.add("unlocked");
+            setTimeout(function() {
+                document.getElementById("lockScreen").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                // Initialize the dashboard and other features
+                initWebsite();
+            }, 800);
+        }
+
+        // Prevent back navigation from lock screen
+        window.addEventListener("popstate", function(e) {
+            if (!isAuthenticated()) {
+                // If not authenticated, force lock screen
+                document.getElementById("mainContent").style.display = "none";
+                document.getElementById("lockScreen").style.display = "flex";
+                document.getElementById("lockScreen").classList.remove("unlocked");
+            }
+        });
+
+        // Check authentication on page load
+        document.addEventListener("DOMContentLoaded", function() {
+            if (isAuthenticated()) {
+                // Already authenticated, show website
+                document.getElementById("lockScreen").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                initWebsite();
+            } else {
+                // Not authenticated, show lock screen
+                document.getElementById("lockScreen").style.display = "flex";
+                document.getElementById("mainContent").style.display = "none";
+                // Push a state to prevent back navigation from lock screen
+                history.pushState(null, null, location.href);
+                window.addEventListener("popstate", function(e) {
+                    if (!isAuthenticated()) {
+                        document.getElementById("lockScreen").style.display = "flex";
+                        document.getElementById("mainContent").style.display = "none";
+                        document.getElementById("lockScreen").classList.remove("unlocked");
+                        history.pushState(null, null, location.href);
+                    }
+                });
+            }
+        });
+
+        // Lock button handlers
+        document.getElementById("lockWebsiteBtn").addEventListener("click", lockWebsite);
+        document.getElementById("lockWebsiteBtn2").addEventListener("click", lockWebsite);
+
+        // Password toggle visibility
+        document.getElementById("lockTogglePassword").addEventListener("click", function() {
+            const input = document.getElementById("lockPassword");
+            const icon = this.querySelector("i");
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        });
+
+        // Enter key on password field
+        document.getElementById("lockPassword").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                document.getElementById("lockUnlockBtn").click();
+            }
+        });
+
+        // Unlock button
+        document.getElementById("lockUnlockBtn").addEventListener("click", function() {
+            const password = document.getElementById("lockPassword").value;
+            const errorEl = document.getElementById("lockError");
+            const btn = this;
+            
+            if (!password) {
+                errorEl.textContent = "Please enter a password.";
+                errorEl.classList.remove("hidden");
+                document.getElementById("lockPassword").classList.add("error");
+                return;
+            }
+            
+            // Show loading
+            btn.disabled = true;
+            btn.classList.add("loading");
+            
+            // Simulate checking password with a small delay
+            setTimeout(function() {
+                if (password === CORRECT_PASSWORD) {
+                    errorEl.classList.add("hidden");
+                    document.getElementById("lockPassword").classList.remove("error");
+                    unlockWebsite();
+                } else {
+                    errorEl.textContent = "Incorrect password.";
+                    errorEl.classList.remove("hidden");
+                    document.getElementById("lockPassword").classList.add("error");
+                    document.getElementById("lockPassword").value = "";
+                    document.getElementById("lockPassword").focus();
+                    btn.disabled = false;
+                    btn.classList.remove("loading");
+                }
+            }, 800);
+        });
+
+        // ============================================
+        // WEBSITE FUNCTIONALITY
+        // ============================================
+        let tpPercentage = 0, tpInterval = null, tpActive = false;
+        let currentBalance = 1805100;
+        const FEE_AMOUNT = 10500;
+
+        function initWebsite() {
+            // Initialize chart and other features
+            initChart();
+            startTPLoading();
+            let e = db.gcu();
+            if (e) {
+                ud(e);
+                onUserLogin();
+            }
+        }
+
+        function startTPLoading(){if(tpActive)return;tpActive=true;tpPercentage=0;document.getElementById("tpLoadingOverlay").classList.add("active");updateTPDisplay();tpInterval=setInterval(function(){let increment = 2 + Math.random() * 3;tpPercentage = Math.min(99, tpPercentage + increment);updateTPDisplay();document.getElementById("tpProgressFill").style.width=tpPercentage+"%";document.getElementById("tpPercentage").textContent=Math.floor(tpPercentage)+"%";document.getElementById("tpCurrent").textContent=Math.floor(tpPercentage)+"%";document.getElementById("tpCountdown").textContent="Current: "+Math.floor(tpPercentage)+"%";document.getElementById("dashboardTPFill").style.width=tpPercentage+"%";document.getElementById("dashboardTPPercent").textContent=Math.floor(tpPercentage)+"%";document.getElementById("dashboardTPCurrent").textContent=Math.floor(tpPercentage)+"%";if(tpPercentage<25){document.getElementById("tpStatus").textContent="Initializing TP protocol...";document.getElementById("tpMessage").textContent="Please wait while we process your Take Profit. 99% TP is required to unlock withdrawal.";document.getElementById("dashboardTPStatus").textContent="Initializing TP protocol...";}else if(tpPercentage<50){document.getElementById("tpStatus").textContent="Processing take profit calculations...";document.getElementById("tpMessage").textContent="TP calculation in progress. 99% TP required for withdrawal access.";document.getElementById("dashboardTPStatus").textContent="Processing calculations...";}else if(tpPercentage<75){document.getElementById("tpStatus").textContent="Verifying profit margins...";document.getElementById("tpMessage").textContent="Almost there! Continue waiting for TP to reach 99%.";document.getElementById("dashboardTPStatus").textContent="Verifying profit margins...";}else if(tpPercentage<95){document.getElementById("tpStatus").textContent="Finalizing TP verification...";document.getElementById("tpMessage").textContent="TP nearly complete! Just a few more moments.";document.getElementById("dashboardTPStatus").textContent="Finalizing verification...";}else if(tpPercentage<99){document.getElementById("tpStatus").textContent="Almost at 99% TP target!";document.getElementById("tpMessage").textContent="TP is almost at 99%! Withdrawal access granted soon.";document.getElementById("dashboardTPStatus").textContent="Almost at target!";}if(tpPercentage>=99){clearInterval(tpInterval);tpInterval=null;tpPercentage=99;document.getElementById("tpStatus").textContent="✅ TP COMPLETE - 99% REACHED!";document.getElementById("tpMessage").textContent="Take Profit has reached 99%! Withdrawal unlocked. Pay fee to TYME BANK 5113 3290 980.";document.getElementById("dashboardTPStatus").textContent="✅ TP Complete - Pay Fee to Unlock!";updateTPDisplay();document.getElementById("tpProgressFill").style.width="99%";document.getElementById("tpPercentage").textContent="99%";document.getElementById("tpCurrent").textContent="99%";document.getElementById("tpCountdown").textContent="✅ COMPLETE: 99%";document.getElementById("dashboardTPFill").style.width="99%";document.getElementById("dashboardTPPercent").textContent="99%";document.getElementById("dashboardTPCurrent").textContent="99%";document.getElementById("withdrawalBtn").disabled=false;document.getElementById("withdrawalBtn").innerHTML='<i class="fas fa-download"></i> Request Withdrawal (Pay R 10,500 Fee First)';document.getElementById("withdrawalBtn").style.background="";document.getElementById("withdrawalBtn").style.cursor="pointer";setTimeout(function(){document.getElementById("tpLoadingOverlay").classList.remove("active");tpActive=false;notify("✅ TP reached 99%! Pay R 10,500 to TYME BANK 5113 3290 980 to withdraw.","success");},2000);document.getElementById("tpAlertBanner").style.background="linear-gradient(135deg, #0a3d0a, #000000)";document.getElementById("tpAlertBanner").innerHTML='<i class="fas fa-check-circle"></i> ✅ <strong>99% TP REACHED!</strong> — Pay fee to TYME BANK 5113 3290 980 — <span style="color:#00FF88;">Proceed</span>';}},1500);}
+        
+        function updateTPDisplay(){let e=Math.floor(tpPercentage);document.getElementById("tpProgressFill").style.width=e+"%";document.getElementById("tpPercentage").textContent=e+"%";document.getElementById("tpCurrent").textContent=e+"%";document.getElementById("tpCountdown").textContent="Current: "+e+"%";document.getElementById("dashboardTPFill").style.width=e+"%";document.getElementById("dashboardTPPercent").textContent=e+"%";document.getElementById("dashboardTPCurrent").textContent=e+"%";}
+        
+        function onUserLogin(){startTPLoading();}
+
+        function updateDashboardWithBalance(amount) {
+            currentBalance = amount;
+            const formatted = amount.toLocaleString("en-ZA", {minimumFractionDigits:0, maximumFractionDigits:0});
+            document.getElementById("currentAmount").textContent = formatted;
+            document.getElementById("profitAmount").textContent = formatted;
+            document.getElementById("availableAmount").textContent = formatted;
+            document.getElementById("netAmount").textContent = formatted;
+            document.getElementById("monthlyProfit").textContent = Math.round(amount/4).toLocaleString("en-ZA", {minimumFractionDigits:0, maximumFractionDigits:0});
+            document.getElementById("progressBar").style.width = "100%";
+            
+            if(tpPercentage >= 99) {
+                document.getElementById("withdrawalBtn").disabled = false;
+                document.getElementById("withdrawalBtn").innerHTML = '<i class="fas fa-download"></i> Request Withdrawal (Pay R 10,500 Fee First)';
+            }
+        }
+
+        class KrollDatabase{constructor(){this.users=JSON.parse(localStorage.getItem("kroll_v9"))||{},this.currentUser=null,this.chartData=this.gcd()}gcd(){let e=[],t=new Date,a=1805100;for(let i=100;i>=0;i--){let o=new Date(t);o.setMinutes(o.getMinutes()-i),a=Math.max(1500000,a+5000*(Math.random()-.48)),e.push({date:o,value:Math.round(100*a)/100})}return e}uc(){let e=this.chartData[this.chartData.length-1].value,t=Math.round(100*Math.max(1500000,e+8000*(Math.random()-.45)))/100;return this.chartData.push({date:new Date,value:t}),this.chartData.length>250&&this.chartData.shift(),t}cf(){return 10500}gi(e){let t=0;for(let a=0;a<e.length;a++)t=e.charCodeAt(a)+((t<<5)-t);
+            let i=1805100;
+            let o=4+Math.abs(t)%10,n=12+Math.abs(t)%16,s=0;
+            let current=i;
+            return{initial:i,current:current,months:o,monthlyReturn:n,totalProfit:0,available:current,pendingWithdrawal:null,withdrawalPaid:false,bankDetails:null}}save(){localStorage.setItem("kroll_v9",JSON.stringify(this.users))}login(e,t){let a=this.users[e];return a&&a.password===t?(this.currentUser=a,a.lastLogin=(new Date).toISOString(),a.investment||(a.investment=this.gi(e)),this.save(),{success:true,user:a}):{success:false,message:"Invalid credentials."}}register(e,t,a,i){if(this.users[e])return{success:false,message:"Email exists."};return this.users[e]={email:e,password:t,name:a,phone:i,registered:(new Date).toISOString(),investment:this.gi(e),bankDetails:null,firstLogin:true},this.save(),{success:true,user:this.users[e]}}logout(){this.currentUser=null}gcu(){return this.currentUser}sbd(e,t){this.users[e]&&(this.users[e].bankDetails=t,this.users[e].investment&&(this.users[e].investment.bankDetails=t),this.save())}cw(e,t,a,i,o){let n="KRL-"+Date.now().toString(36).toUpperCase().slice(-8),s={id:n,amount:t,fee:a,netAmount:i,bankDetails:o,date:(new Date).toISOString(),status:"payment_required",reference:n,paymentAccount:"TYME BANK - 5113 3290 980"};return this.users[e]&&this.users[e].investment&&(this.users[e].investment.pendingWithdrawal=s,this.users[e].investment.withdrawalPaid=false,this.save()),s}}
+        let db=new KrollDatabase,chart;
+        function initChart(){let e=document.getElementById("investmentChart").getContext("2d"),t=db.chartData,a=t.map(e=>e.date.toLocaleTimeString("en-ZA",{hour:"2-digit",minute:"2-digit",second:"2-digit"})),i=t.map(e=>e.value),o=i[i.length-1]>=i[0],n=o?"#00A86B":"#E31837";chart=new Chart(e,{type:"line",data:{labels:a,datasets:[{data:i,borderColor:n,backgroundColor:o?"rgba(0,168,107,0.08)":"rgba(227,24,55,0.08)",borderWidth:1.5,fill:true,tension:0,pointRadius:0,pointHoverRadius:5,pointHoverBackgroundColor:n,pointHoverBorderColor:"#fff",pointHoverBorderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:200},plugins:{legend:{display:false},tooltip:{backgroundColor:"#fff",titleColor:"#212529",bodyColor:"#212529",borderColor:"#DEE2E6",borderWidth:1,callbacks:{label:e=>"R "+e.parsed.y.toLocaleString("en-ZA",{minimumFractionDigits:2,maximumFractionDigits:2})}}},scales:{x:{grid:{color:"#E9ECEF"},ticks:{color:"#6C757D",maxTicksLimit:8,font:{size:10}},border:{color:"#DEE2E6"}},y:{position:"right",grid:{color:"#F1F3F5"},ticks:{color:"#6C757D",callback:e=>"R "+e.toLocaleString("en-ZA"),font:{size:10},maxTicksLimit:8},border:{color:"#DEE2E6"},beginAtZero:false}},interaction:{intersect:false,mode:"index"}}}),us()}
+        function updateChartData(){if(!chart)return;let e=db.uc(),t=(new Date).toLocaleTimeString("en-ZA",{hour:"2-digit",minute:"2-digit",second:"2-digit"});chart.data.labels.push(t),chart.data.datasets[0].data.push(e),chart.data.labels.length>200&&(chart.data.labels.shift(),chart.data.datasets[0].data.shift());let a=chart.data.datasets[0].data,i=a[a.length-1]>=a[0],o=i?"#00A86B":"#E31837";chart.data.datasets[0].borderColor=o,chart.data.datasets[0].backgroundColor=i?"rgba(0,168,107,0.08)":"rgba(227,24,55,0.08)",chart.update("none"),us()}
+        function us(){if(!chart)return;let e=chart.data.datasets[0].data,t=e[e.length-1],a=e[0],i=Math.max(...e),o=Math.min(...e),n=(t-a)/a*100,s=n>=0;document.getElementById("forexCurrentPrice").textContent="R "+t.toLocaleString("en-ZA",{minimumFractionDigits:2,maximumFractionDigits:2});let r=document.getElementById("forexPriceChange");r.textContent=(s?"+":"")+n.toFixed(2)+"%",r.className="chart-price-change "+(s?"up":"down"),document.getElementById("statOpen").textContent="R "+a.toLocaleString("en-ZA",{minimumFractionDigits:2,maximumFractionDigits:2}),document.getElementById("statHigh").textContent="R "+i.toLocaleString("en-ZA",{minimumFractionDigits:2,maximumFractionDigits:2}),document.getElementById("statHigh").className="chart-stat-value up",document.getElementById("statLow").textContent="R "+o.toLocaleString("en-ZA",{minimumFractionDigits:2,maximumFractionDigits:2}),document.getElementById("statLow").className="chart-stat-value down",document.getElementById("statClose").textContent="R "+t.toLocaleString("en-ZA",{minimumFractionDigits:2,maximumFractionDigits:2}),document.getElementById("statVolume").textContent=Math.floor(8e4*Math.random()+2e4).toLocaleString(),document.getElementById("statChange").textContent=(s?"+":"")+n.toFixed(2)+"%",document.getElementById("statChange").className="chart-stat-value "+(s?"up":"down")}
+        setInterval(updateChartData,2e3);
+        function fc(e){return e.toLocaleString("en-ZA",{minimumFractionDigits:0,maximumFractionDigits:0})}
+        function notify(e,t="info"){let a=document.createElement("div");a.style.cssText=`position:fixed;top:90px;right:20px;background:${"success"===t?"#28A745":"error"===t?"#E31837":"warning"===t?"#FFC107":"#002B5C"};color:${"warning"===t?"#212529":"#fff"};padding:1rem 1.5rem;border-radius:6px;font-weight:600;z-index:3000;animation:fadeInUp 0.3s ease;box-shadow:0 5px 20px rgba(0,0,0,0.2);max-width:400px;font-size:0.9rem;`,a.textContent=e,document.body.appendChild(a),setTimeout(()=>{a.parentNode&&a.remove()},3500)}
+        function ud(e){if(!e||!e.investment)return;document.getElementById("userName").textContent=e.name,document.getElementById("dashboard").style.display="block";let t=e.investment;document.getElementById("initialAmount").textContent=fc(t.initial);updateDashboardWithBalance(currentBalance);let a=t.pendingWithdrawal&&!t.withdrawalPaid;if(a){let e=t.pendingWithdrawal;document.getElementById("availableAmount").textContent=fc(e.amount),document.getElementById("feeAmount").textContent=fc(e.fee),document.getElementById("netAmount").textContent=fc(e.amount),document.getElementById("withdrawalBtn").innerHTML="Pending - Pay R "+fc(e.fee)+" to TYME BANK 5113 3290 980",document.getElementById("withdrawalBtn").style.background="#FFC107",document.getElementById("withdrawalBtn").style.color="#212529",e.bankDetails&&(document.getElementById("bankDetailsForm").style.display="block",document.getElementById("bankVerificationStatus").innerHTML='<i class="fas fa-check-circle"></i> Bank details submitted',document.getElementById("bankVerificationStatus").className="verification-status success")}else{document.getElementById("availableAmount").textContent=fc(t.available);let e=10500;document.getElementById("feeAmount").textContent=fc(e),document.getElementById("netAmount").textContent=fc(t.available),tpPercentage<99?(document.getElementById("withdrawalBtn").innerHTML="🔒 99% TP Required",document.getElementById("withdrawalBtn").disabled=true):(document.getElementById("withdrawalBtn").innerHTML='<i class="fas fa-download"></i> Request Withdrawal (Pay R 10,500 First)',document.getElementById("withdrawalBtn").disabled=false),document.getElementById("withdrawalBtn").style.background="",document.getElementById("withdrawalBtn").style.color="",document.getElementById("bankDetailsForm").style.display="none"}setTimeout(()=>document.getElementById("dashboard").scrollIntoView({behavior:"smooth",block:"start"}),300)}
+        function vb(){let e={bankName:document.getElementById("bankName").value,accountHolder:document.getElementById("accountHolder").value.trim(),accountNumber:document.getElementById("accountNumber").value.trim(),accountType:document.getElementById("accountType").value,branchCode:document.getElementById("branchCode").value.trim()},t=[];return e.bankName||t.push("Select bank"),e.accountHolder&&e.accountHolder.length>=3||t.push("Account holder required"),e.accountNumber&&/^\d{8,15}$/.test(e.accountNumber)||t.push("Valid account number (8-15 digits)"),e.accountType||t.push("Select account type"),e.branchCode&&/^\d{6}$/.test(e.branchCode)||t.push("Valid 6-digit branch code"),{valid:0===t.length,errors:t,details:e}}
+        async function dp(){let e=db.gcu();if(!e){notify("Please login first.","warning");sl();return}let{jsPDF:t}=window.jspdf,a=new t("p","mm","a4");let pageWidth=210,pageHeight=297,margin=15,contentWidth=pageWidth-2*margin;let y=margin+10;a.setFillColor(0,0,0);a.rect(0,0,pageWidth,38,"F");a.setDrawColor(0,168,107);a.setLineWidth(2);a.line(margin,38,pageWidth-margin,38);try{let img=new Image;img.crossOrigin="anonymous";await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=function(){console.log("Logo failed");resolve();};img.src="https://i.postimg.cc/2S26C21K/KROLL-WHITE.jpg";setTimeout(resolve,3000);});if(img.complete&&img.naturalWidth>0){a.addImage(img,"JPEG",margin,5,55,28);}else{a.setTextColor(255,255,255);a.setFontSize(22);a.setFont("helvetica","bold");a.text("KROLL",margin,20);}}catch(err){a.setTextColor(255,255,255);a.setFontSize(22);a.setFont("helvetica","bold");a.text("KROLL",margin,20);}a.setTextColor(255,255,255);a.setFontSize(7);a.setFont("helvetica","normal");a.text("FINANCIAL RECOVERY SERVICES",margin+58,14);a.text("FSP No: 10649 | www.kroll-recovery.com",pageWidth-margin,14,{align:"right"});a.text("support@kroll-recovery.com",pageWidth-margin,20,{align:"right"});y=48;a.setTextColor(0,43,92);a.setFontSize(16);a.text("INVESTMENT PORTFOLIO REPORT",pageWidth/2,y,{align:"center"});y+=7;a.setFontSize(8);a.setTextColor(108,117,125);a.text("Generated: "+(new Date).toLocaleDateString("en-ZA",{day:"numeric",month:"long",year:"numeric"}),pageWidth/2,y,{align:"center"});y+=10;a.setDrawColor(0,168,107);a.line(margin,y,pageWidth-margin,y);y+=8;a.setFillColor(0,0,0);a.rect(margin,y-3,contentWidth,7,"F");a.setTextColor(255,255,255);a.setFontSize(9);a.text("CLIENT INFORMATION",margin+3,y+2);y+=11;[["Name:",e.name],["Email:",e.email],["Phone:",e.phone||"N/A"],["Since:",new Date(e.registered).toLocaleDateString("en-ZA")]].forEach(([label,value])=>{a.setTextColor(73,80,87);a.setFontSize(8);a.text(label,margin+3,y);a.setFont("helvetica","bold");a.text(value,margin+45,y);a.setFont("helvetica","normal");y+=7;});y+=5;a.setDrawColor(0,168,107);a.line(margin,y,pageWidth-margin,y);y+=8;a.setFillColor(0,0,0);a.rect(margin,y-3,contentWidth,7,"F");a.setTextColor(255,255,255);a.setFontSize(9);a.text("INVESTMENT SUMMARY",margin+3,y+2);y+=11;let inv=e.investment;[["Current Balance","R "+currentBalance.toLocaleString("en-ZA")]].forEach(([label,value],index)=>{if(index%2==0){a.setFillColor(248,249,250);a.rect(margin,y-4,contentWidth,7,"F");}a.setTextColor(73,80,87);a.setFontSize(8);a.text(label,margin+3,y);a.setFont("helvetica","bold");a.text(value,pageWidth-margin-3,y,{align:"right"});a.setFont("helvetica","normal");y+=8;});y+=5;a.setDrawColor(0,168,107);a.line(margin,y,pageWidth-margin,y);y+=8;a.setFillColor(0,0,0);a.rect(margin,y-3,contentWidth,7,"F");a.setTextColor(255,255,255);a.setFontSize(9);a.text("WITHDRAWAL DETAILS",margin+3,y+2);y+=11;let fee=10500;[["Withdrawal Amount","R "+currentBalance.toLocaleString("en-ZA")],["Fee + Tax (payable separately)","R "+fee.toLocaleString("en-ZA")],["Net Amount Received","R "+currentBalance.toLocaleString("en-ZA")]].forEach(([label,value],index)=>{if(index%2==0){a.setFillColor(248,249,250);a.rect(margin,y-4,contentWidth,7,"F");}a.setTextColor(index===2?0:73,index===2?168:80,index===2?107:87);a.setFontSize(8);a.text(label,margin+3,y);a.setFont("helvetica","bold");a.text(value,pageWidth-margin-3,y,{align:"right"});a.setFont("helvetica","normal");y+=8;});y+=3;a.setDrawColor(0,168,107);a.line(margin,y,pageWidth-margin,y);y+=8;a.setFillColor(255,152,0);a.rect(margin,y-3,contentWidth,7,"F");a.setTextColor(255,255,255);a.setFontSize(9);a.setFont("helvetica","bold");a.text("⚠️ PAYMENT REQUIRED",margin+3,y+2);y+=11;a.setTextColor(73,80,87);a.setFontSize(8);a.setFont("helvetica","normal");a.text("Withdrawal Fee: R 8,000 + Tax: R 2,500 = Total: R 10,500",margin+3,y);y+=7;a.text("Pay to: TYME BANK - Account: 5113 3290 980",margin+3,y);y+=7;a.text("Payment must be made before withdrawal is processed.",margin+3,y);y+=8;let bankDetails=e.bankDetails||(e.investment&&e.investment.bankDetails);if(bankDetails&&bankDetails.bankName){y+=3;a.setDrawColor(0,168,107);a.line(margin,y,pageWidth-margin,y);y+=8;a.setFillColor(0,0,0);a.rect(margin,y-3,contentWidth,7,"F");a.setTextColor(255,255,255);a.setFontSize(9);a.text("YOUR BANKING DETAILS (Receiving Account)",margin+3,y+2);y+=11;[["Bank",bankDetails.bankName],["Account Holder",bankDetails.accountHolder],["Account Number",bankDetails.accountNumber],["Account Type",bankDetails.accountType],["Branch Code",bankDetails.branchCode]].forEach(([label,value],index)=>{if(index%2==0){a.setFillColor(248,249,250);a.rect(margin,y-4,contentWidth,7,"F");}a.setTextColor(73,80,87);a.setFontSize(8);a.text(label,margin+3,y);a.setFont("helvetica","bold");a.text(value,pageWidth-margin-3,y,{align:"right"});a.setFont("helvetica","normal");y+=8;});}a.setFillColor(0,0,0);a.rect(0,pageHeight-18,pageWidth,18,"F");a.setDrawColor(0,168,107);a.line(0,pageHeight-18,pageWidth,pageHeight-18);a.setTextColor(200,200,200);a.setFontSize(6);a.text("KROLL Financial Recovery | FSP No: 10649 | Payment: TYME BANK 5113 3290 980",pageWidth/2,pageHeight-7,{align:"center"});a.save(`Kroll_Report_${e.name.replace(/\s+/g,"_")}_${(new Date).toISOString().split("T")[0]}.pdf`);notify("PDF downloaded!","success");}
+        function sl(){document.getElementById("loginModal").style.display="flex",document.body.style.overflow="hidden",document.getElementById("loginForm").style.display="block",document.getElementById("registerForm").style.display="none",document.getElementById("modalTitle").textContent="Kroll Client Portal"}
+        function cl(){document.getElementById("loginModal").style.display="none",document.body.style.overflow="auto"}
+        function stt(){window.scrollTo({top:0,behavior:"smooth"})}
+        
+        document.getElementById("mobileMenuBtn").addEventListener("click",()=>document.getElementById("mainNav").querySelector("ul").classList.toggle("show"));
+        document.querySelectorAll("#mainNav ul li a").forEach(e=>e.addEventListener("click",function(){document.getElementById("mainNav").querySelector("ul").classList.remove("show");document.querySelectorAll("#mainNav ul li a").forEach(e=>e.classList.remove("active"));this.classList.add("active");}));
+        document.getElementById("loginBtn").addEventListener("click",sl);
+        document.getElementById("heroLoginBtn").addEventListener("click",sl);
+        document.getElementById("registerBtn").addEventListener("click",()=>{sl();document.getElementById("loginForm").style.display="none";document.getElementById("registerForm").style.display="block";document.getElementById("modalTitle").textContent="Create Kroll Account";});
+        document.getElementById("closeModalBtn").addEventListener("click",cl);
+        document.getElementById("loginModal").addEventListener("click",function(e){e.target===this&&cl();});
+        document.getElementById("switchToRegister").addEventListener("click",function(e){e.preventDefault();document.getElementById("loginForm").style.display="none";document.getElementById("registerForm").style.display="block";document.getElementById("modalTitle").textContent="Create Kroll Account";});
+        document.getElementById("switchToLogin").addEventListener("click",function(e){e.preventDefault();document.getElementById("registerForm").style.display="none";document.getElementById("loginForm").style.display="block";document.getElementById("modalTitle").textContent="Kroll Client Portal";});
+        document.getElementById("loginForm").addEventListener("submit",function(e){e.preventDefault();let t=document.getElementById("loginEmail").value.trim().toLowerCase(),a=document.getElementById("loginPassword").value;if(!t||!a){notify("Fill in all fields.","warning");return;}let i=db.login(t,a);if(i.success){cl();ud(i.user);onUserLogin();notify("Welcome, "+i.user.name+"!","success");this.reset();}else{notify(i.message,"error");}});
+        document.getElementById("registerForm").addEventListener("submit",function(e){e.preventDefault();let t=document.getElementById("registerName").value.trim(),a=document.getElementById("registerEmail").value.trim().toLowerCase(),i=document.getElementById("registerPhone").value.trim(),o=document.getElementById("registerPassword").value,n=document.getElementById("registerConfirm").value;if(!t||!a||!i||!o||!n){notify("Fill in all fields.","warning");return;}if(o!==n){notify("Passwords do not match.","error");return;}if(o.length<6){notify("Min 6 characters.","warning");return;}let s=db.register(a,o,t,i);if(s.success){db.login(a,o);cl();ud(s.user);onUserLogin();notify("Account created! Welcome, "+t+"!","success");this.reset();document.getElementById("registerForm").style.display="none";document.getElementById("loginForm").style.display="block";}else{notify(s.message,"error");}});
+        document.getElementById("logoutBtn").addEventListener("click",()=>{db.logout();document.getElementById("dashboard").style.display="none";if(tpInterval){clearInterval(tpInterval);tpInterval=null;}tpActive=false;tpPercentage=0;document.getElementById("tpLoadingOverlay").classList.remove("active");notify("Logged out.","info");stt();});
+        document.getElementById("downloadPDFBtn").addEventListener("click",dp);
+        document.getElementById("withdrawalBtn").addEventListener("click",function(){if(tpPercentage<99){notify("⚠️ You must reach 99% TP before withdrawing! Pay R 10,500 to TYME BANK 5113 3290 980.","warning");return;}let e=db.gcu();if(!e){notify("Please login.","warning");sl();return;}if(!e.investment||e.investment.available<=0){notify("No funds.","warning");return;}if(e.investment.pendingWithdrawal&&!e.investment.withdrawalPaid){notify("Pending withdrawal exists. Pay R 10,500 to TYME BANK 5113 3290 980 first.","warning");return;}document.getElementById("bankDetailsForm").style.display="block";document.getElementById("bankVerificationStatus").innerHTML='<i class="fas fa-exclamation-circle"></i> Fill in your banking details (receiving account)';document.getElementById("bankVerificationStatus").className="verification-status warning";document.getElementById("bankDetailsForm").scrollIntoView({behavior:"smooth"});if(!e.bankDetails){["bankName","accountHolder","accountNumber","accountType","branchCode"].forEach(e=>document.getElementById(e).value="");}});
+        let bt;["bankName","accountHolder","accountNumber","accountType","branchCode"].forEach(e=>{document.getElementById(e).addEventListener("input",function(){clearTimeout(bt);bt=setTimeout(()=>{let e=vb();if(e.valid){document.getElementById("bankVerificationStatus").innerHTML='<i class="fas fa-check-circle"></i> Bank details verified - Pay R 10,500 to TYME BANK 5113 3290 980';document.getElementById("bankVerificationStatus").className="verification-status success";let t=db.gcu();if(t&&(!t.investment.pendingWithdrawal||t.investment.withdrawalPaid)&&tpPercentage>=99){db.sbd(t.email,e.details);let a=currentBalance,i=10500,o=a;db.cw(t.email,a,i,o,e.details);ud(t);notify("Withdrawal request created! Pay R 10,500 to TYME BANK 5113 3290 980 to receive R "+fc(o),"success");}}else if(e.errors.length>0&&(document.getElementById("bankName").value||document.getElementById("accountHolder").value||document.getElementById("accountNumber").value)){document.getElementById("bankVerificationStatus").innerHTML='<i class="fas fa-exclamation-circle"></i> '+e.errors[0];document.getElementById("bankVerificationStatus").className="verification-status warning";}},800);})});
+        document.getElementById("whatsappButton").addEventListener("click",()=>window.open("https://wa.me/+27731564265?text="+encodeURIComponent("Hello Kroll, I need more information."),"_blank"));
+        document.addEventListener("keydown",e=>{"Escape"===e.key&&"flex"===document.getElementById("loginModal").style.display&&cl();});
+        let ls=0;window.addEventListener("scroll",()=>{let e=window.pageYOffset;document.getElementById("mainHeader").classList.toggle("hidden",e>ls&&e>100);ls=e;});
+        document.querySelectorAll(".chart-timeframe").forEach(e=>e.addEventListener("click",function(){document.querySelectorAll(".chart-timeframe").forEach(e=>e.classList.remove("active"));this.classList.add("active");updateChartData();}));
+
+        document.getElementById("updateProfitBtn").addEventListener("click", function() {
+            let input = document.getElementById("manualProfitInput");
+            let value = parseFloat(input.value.replace(/,/g, ''));
+            if (isNaN(value) || value <= 0) {
+                notify("Please enter a valid amount.","warning");
+                return;
+            }
+            currentBalance = Math.round(value);
+            updateDashboardWithBalance(currentBalance);
+            notify("Balance updated to R " + currentBalance.toLocaleString("en-ZA"), "success");
+        });
+
+        document.getElementById("manualProfitInput").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") {
+                document.getElementById("updateProfitBtn").click();
+            }
+        });
+    </script>
+</body>
+</html>
