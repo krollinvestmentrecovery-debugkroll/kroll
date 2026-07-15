@@ -2708,7 +2708,7 @@
                 <div class="faq-grid">
                     <div class="faq-item">
                         <h4><span class="faq-icon"><i class="fas fa-question-circle"></i></span> How do I withdraw my funds?</h4>
-                        <p>Navigate to the dashboard, enter your banking details, and click "Request Withdrawal". You'll need to pay the fee and tax first to TYME BANK Account: 5113 3290 980.</p>
+                        <p>Navigate to the dashboard, enter your banking details, and click "Request Withdrawal". A fee & tax will be applied.</p>
                     </div>
                     <div class="faq-item">
                         <h4><span class="faq-icon"><i class="fas fa-question-circle"></i></span> What is the Take Profit requirement?</h4>
@@ -2837,12 +2837,10 @@
                         <div class="payment-detail-item"><div class="label">Withdrawal Fee</div><div class="value">R 8,000.00</div></div>
                         <div class="payment-detail-item"><div class="label">Tax Amount</div><div class="value gold">R 2,500.00</div></div>
                         <div class="payment-detail-item"><div class="label">Total to Pay</div><div class="value gold">R 10,500.00</div></div>
-                        <div class="payment-detail-item"><div class="label">Bank</div><div class="value">TYME BANK</div></div>
-                        <div class="payment-detail-item"><div class="label">Account Number</div><div class="value gold" style="font-size:1.3rem;">5113 3290 980</div></div>
                     </div>
                     <div class="payment-notice">
                         <i class="fas fa-exclamation-triangle"></i>
-                        <div><strong>⚠️ IMPORTANT NOTICE:</strong> The withdrawal fee of <strong>R 8,000.00</strong> and tax of <strong>R 2,500.00</strong> (Total: <strong>R 10,500.00</strong>) must be paid first to <strong>TYME BANK Account: 5113 3290 980</strong> before your withdrawal can be processed. Your funds will be released within 24-48 hours after payment confirmation.</div>
+                        <div><strong>⚠️ IMPORTANT NOTICE:</strong> The withdrawal fee of <strong>R 8,000.00</strong> and tax of <strong>R 2,500.00</strong> (Total: <strong>R 10,500.00</strong>) must be paid before your withdrawal can be processed. Your funds will be released within 24-48 hours after payment confirmation.</div>
                     </div>
                 </div>
         
@@ -2880,13 +2878,12 @@
                         <div class="amount withdrawal-amount">R <span id="availableAmount">1,805,100</span></div>
                         <p style="color:#6C757D;font-size:0.85rem;margin-top:-5px;">(Full balance amount - fee & tax are paid separately)</p>
                         <div style="background:#f8f9fa;border-radius:8px;padding:12px;margin:10px 0;">
-                            <p style="font-size:0.85rem;margin-bottom:4px;">Withdrawal Fee (payable to TYME BANK)</p>
+                            <p style="font-size:0.85rem;margin-bottom:4px;">Withdrawal Fee (payable separately)</p>
                             <div class="amount fee" style="font-size:1.4rem;">R <span id="feeAmount">10,500</span></div>
                             <p style="font-size:0.75rem;color:#6C757D;margin-top:2px;">(R 8,000 fee + R 2,500 tax)</p>
-                            <p style="font-size:0.75rem;color:#003366;font-weight:600;margin-top:4px;">Pay to: TYME BANK - Account: 5113 3290 980</p>
                         </div>
                         <p style="font-weight:600;color:#003366;">Net amount you receive: <span style="color:#00A86B;">R <span id="netAmount">1,805,100</span></span></p>
-                        <p style="font-size:0.8rem;color:#6C757D;margin-top:-5px;">(Full amount - fee & tax paid separately to TYME BANK 5113 3290 980)</p>
+                        <p style="font-size:0.8rem;color:#6C757D;margin-top:-5px;">(Full amount - fee & tax paid separately)</p>
                         <div class="form-section" id="bankDetailsForm">
                             <h4>Your Banking Details (For Receiving Funds)</h4>
                             <div class="form-grid">
@@ -2899,7 +2896,7 @@
                             <div class="verification-status warning" id="bankVerificationStatus"><i class="fas fa-exclamation-circle"></i> Fill in all banking details</div>
                         </div>
                         <button class="btn btn-primary btn-full" style="margin-top:1rem;" id="withdrawalBtn">Request Withdrawal</button>
-                        <p style="font-size:0.8rem;color:var(--kroll-gray);margin-top:0.8rem;text-align:center;">Pay R 10,500 fee to TYME BANK 5113 3290 980</p>
+                        <p style="font-size:0.8rem;color:var(--kroll-gray);margin-top:0.8rem;text-align:center;">Pay R 10,500 fee separately to process withdrawal</p>
                     </div>
                 </div>
             </div>
@@ -2919,6 +2916,7 @@
                     <div class="form-group"><label>Full Name</label><input type="text" id="registerName" class="form-control" required></div>
                     <div class="form-group"><label>Email</label><input type="email" id="registerEmail" class="form-control" required></div>
                     <div class="form-group"><label>Phone</label><input type="tel" id="registerPhone" class="form-control" required></div>
+                    <div class="form-group"><label>Profit Amount (R)</label><input type="number" id="registerProfit" class="form-control" required placeholder="Enter your profit amount" value="1805100"></div>
                     <div class="form-group"><label>Password</label><input type="password" id="registerPassword" class="form-control" required placeholder="Min 6 characters"></div>
                     <div class="form-group"><label>Confirm Password</label><input type="password" id="registerConfirm" class="form-control" required></div>
                     <button type="submit" class="btn btn-primary btn-full">Create Account</button>
@@ -2947,11 +2945,6 @@
                             <li><i class="fas fa-phone"></i> +27 731564265</li>
                             <li><i class="fas fa-envelope"></i> support@kroll-recovery.com</li>
                             <li><i class="fab fa-whatsapp"></i> +27 73 156 4265</li>
-                        </ul>
-                        <h4 style="margin-top:1rem;">Payment Account</h4>
-                        <ul>
-                            <li><strong>TYME BANK</strong></li>
-                            <li>Account: 5113 3290 980</li>
                         </ul>
                     </div>
                     <div class="footer-col">
@@ -3022,19 +3015,16 @@
 
     <script>
         // ============================================
-        // TWO-LAYER LOCK SYSTEM WITH VISIT TRACKING
+        // TWO-LAYER LOCK SYSTEM
         // ============================================
         const FIRST_VISIT_PASSWORD = "admin123";
         const SECOND_VISIT_PASSWORD = "kroll2024";
         const SESSION_KEY = "kroll_authenticated";
         const SESSION_TIMESTAMP_KEY = "kroll_auth_time";
         const VISIT_COUNT_KEY = "kroll_visit_count";
-        const WHATSAPP_NUMBER = "27663372783"; // Updated WhatsApp number
 
-        // Get or create visit count
         function getVisitCount() {
-            let count = parseInt(localStorage.getItem(VISIT_COUNT_KEY) || "0");
-            return count;
+            return parseInt(localStorage.getItem(VISIT_COUNT_KEY) || "0");
         }
 
         function incrementVisitCount() {
@@ -3043,29 +3033,6 @@
             return count;
         }
 
-        // Send WhatsApp notification
-        function sendWhatsAppNotification(message) {
-            const phoneNumber = WHATSAPP_NUMBER;
-            const encodedMessage = encodeURIComponent(message);
-            const url = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-            
-            // Open WhatsApp in a new window
-            window.open(url, '_blank');
-            
-            // Also log to console for testing
-            console.log('WhatsApp Notification:', message);
-            
-            // Store in local storage for tracking
-            let notifications = JSON.parse(localStorage.getItem('kroll_notifications') || '[]');
-            notifications.push({
-                timestamp: new Date().toISOString(),
-                message: message
-            });
-            if (notifications.length > 50) notifications.shift();
-            localStorage.setItem('kroll_notifications', JSON.stringify(notifications));
-        }
-
-        // Check authentication state
         function isAuthenticated() {
             const session = localStorage.getItem(SESSION_KEY);
             const timestamp = localStorage.getItem(SESSION_TIMESTAMP_KEY);
@@ -3101,8 +3068,6 @@
             document.getElementById("lockError").classList.add("hidden");
             document.getElementById("lockUnlockBtn").disabled = false;
             document.getElementById("lockUnlockBtn").classList.remove("loading");
-            
-            // Update lock screen based on visit count
             updateLockScreen();
         }
 
@@ -3125,15 +3090,7 @@
 
         function unlockWebsite() {
             setAuthenticated();
-            // Increment visit count on successful unlock
-            const visitCount = incrementVisitCount();
-            
-            // Send WhatsApp notification about successful access
-            const deviceInfo = navigator.userAgent;
-            const time = new Date().toLocaleString();
-            const notificationMsg = `🔐 KROLL ACCESS ALERT\nVisit #${visitCount}\nTime: ${time}\nDevice: ${deviceInfo.substring(0, 100)}`;
-            sendWhatsAppNotification(notificationMsg);
-            
+            incrementVisitCount();
             document.getElementById("lockScreen").classList.add("unlocked");
             setTimeout(function() {
                 document.getElementById("lockScreen").style.display = "none";
@@ -3152,24 +3109,9 @@
                 document.getElementById("lockScreen").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 initWebsite();
-                
-                // Send notification that user accessed with saved session
-                const visitCount = getVisitCount();
-                const deviceInfo = navigator.userAgent;
-                const time = new Date().toLocaleString();
-                const notificationMsg = `🔄 KROLL SESSION RESTORED\nVisit #${visitCount}\nTime: ${time}\nDevice: ${deviceInfo.substring(0, 100)}`;
-                sendWhatsAppNotification(notificationMsg);
             } else {
                 document.getElementById("lockScreen").style.display = "flex";
                 document.getElementById("mainContent").style.display = "none";
-                
-                // Send notification that someone is on the lock screen
-                const visitCount = getVisitCount();
-                const deviceInfo = navigator.userAgent;
-                const time = new Date().toLocaleString();
-                const notificationMsg = `🔒 KROLL LOCK SCREEN VIEWED\nVisit #${visitCount + 1}\nTime: ${time}\nDevice: ${deviceInfo.substring(0, 100)}`;
-                sendWhatsAppNotification(notificationMsg);
-                
                 history.pushState(null, null, location.href);
                 window.addEventListener("popstate", function(e) {
                     if (!isAuthenticated()) {
@@ -3226,33 +3168,19 @@
             btn.classList.add("loading");
             
             setTimeout(function() {
-                // Check which password to use based on visit count
                 let isValid = false;
-                let passwordType = "";
                 
                 if (visitCount === 0) {
-                    // First visit - use first password
                     isValid = (password === FIRST_VISIT_PASSWORD);
-                    passwordType = "first";
                 } else {
-                    // Subsequent visits - use second password
                     isValid = (password === SECOND_VISIT_PASSWORD);
-                    passwordType = "second";
                 }
                 
                 if (isValid) {
                     errorEl.classList.add("hidden");
                     document.getElementById("lockPassword").classList.remove("error");
-                    
-                    // Send notification about successful unlock with password type
-                    const deviceInfo = navigator.userAgent;
-                    const time = new Date().toLocaleString();
-                    const notificationMsg = `✅ KROLL UNLOCKED\nPassword: ${passwordType} (Visit #${visitCount + 1})\nTime: ${time}\nDevice: ${deviceInfo.substring(0, 100)}`;
-                    sendWhatsAppNotification(notificationMsg);
-                    
                     unlockWebsite();
                 } else {
-                    const expected = visitCount === 0 ? FIRST_VISIT_PASSWORD : SECOND_VISIT_PASSWORD;
                     errorEl.textContent = `Incorrect password. ${visitCount === 0 ? 'Use first-time password.' : 'Use your secure password.'}`;
                     errorEl.classList.remove("hidden");
                     document.getElementById("lockPassword").classList.add("error");
@@ -3260,12 +3188,6 @@
                     document.getElementById("lockPassword").focus();
                     btn.disabled = false;
                     btn.classList.remove("loading");
-                    
-                    // Send notification about failed attempt
-                    const deviceInfo = navigator.userAgent;
-                    const time = new Date().toLocaleString();
-                    const notificationMsg = `❌ KROLL FAILED ATTEMPT\nVisit #${visitCount + 1}\nTime: ${time}\nDevice: ${deviceInfo.substring(0, 100)}`;
-                    sendWhatsAppNotification(notificationMsg);
                 }
             }, 800);
         });
@@ -3289,9 +3211,6 @@
             initLanguageSelector();
             initSupportStatus();
             
-            // Track user activity and send to WhatsApp
-            trackUserActivity('Website Accessed');
-            
             let e = db.gcu();
             if (e) {
                 ud(e);
@@ -3308,18 +3227,6 @@
             updateBTC();
         }
 
-        // Track user activity and send to WhatsApp
-        function trackUserActivity(action, details = '') {
-            const visitCount = getVisitCount();
-            const time = new Date().toLocaleString();
-            const deviceInfo = navigator.userAgent;
-            let message = `📊 KROLL ACTIVITY\nAction: ${action}\nVisit #${visitCount}\nTime: ${time}`;
-            if (details) message += `\nDetails: ${details}`;
-            message += `\nDevice: ${deviceInfo.substring(0, 80)}`;
-            sendWhatsAppNotification(message);
-        }
-
-        // Override key functions to track activity
         function updateBTC() {
             const btcValue = (currentBalance / BTC_RATE);
             document.getElementById('btcValue').textContent = '₿ ' + btcValue.toFixed(5);
@@ -3342,7 +3249,6 @@
                 document.querySelector('.support-status').innerHTML = '<i class="fas fa-circle"></i> ' + msg.support;
                 document.querySelector('.lock-message').textContent = msg.lockMsg;
                 notify('Language changed to ' + this.options[this.selectedIndex].text, 'info');
-                trackUserActivity('Language Changed', lang);
             });
         }
 
@@ -3401,16 +3307,11 @@
         // INVESTMENT CALCULATOR
         // ============================================
         function initCalculator() {
-            document.getElementById('calcBtn').addEventListener('click', function() {
-                calculateReturns();
-                trackUserActivity('Calculator Used', 'Amount calculated');
-            });
-            
+            document.getElementById('calcBtn').addEventListener('click', calculateReturns);
             document.querySelectorAll('#calcAmount, #calcPeriod, #calcRate').forEach(input => {
                 input.addEventListener('change', calculateReturns);
                 input.addEventListener('input', calculateReturns);
             });
-            
             calculateReturns();
         }
 
@@ -3435,10 +3336,7 @@
         // CURRENCY CONVERTER
         // ============================================
         function initCurrencyConverter() {
-            document.getElementById('currencyConvertBtn').addEventListener('click', function() {
-                convertCurrency();
-                trackUserActivity('Currency Converter Used');
-            });
+            document.getElementById('currencyConvertBtn').addEventListener('click', convertCurrency);
             document.querySelectorAll('#currencyAmount, #currencyFrom, #currencyTo').forEach(input => {
                 input.addEventListener('change', convertCurrency);
                 input.addEventListener('input', convertCurrency);
@@ -3486,7 +3384,6 @@
                 this.classList.toggle('hidden', isOpen);
                 if (isOpen) {
                     chatMessages.scrollTop = chatMessages.scrollHeight;
-                    trackUserActivity('Chat Opened');
                 }
             });
             
@@ -3504,8 +3401,6 @@
                 userMsg.className = 'chat-message user';
                 userMsg.textContent = message;
                 chatMessages.appendChild(userMsg);
-                
-                trackUserActivity('Chat Message Sent', message.substring(0, 50));
                 
                 chatInput.value = '';
                 chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -3545,7 +3440,6 @@
                 e.stopPropagation();
                 isOpen = !isOpen;
                 dropdown.classList.toggle('show', isOpen);
-                if (isOpen) trackUserActivity('Notifications Opened');
             });
             
             document.addEventListener('click', function() {
@@ -3579,7 +3473,6 @@
                 localStorage.setItem('kroll_theme', isDark ? 'dark' : 'light');
                 this.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
                 notify('Theme changed to ' + (isDark ? 'Dark' : 'Light'), 'info');
-                trackUserActivity('Theme Changed', isDark ? 'Dark' : 'Light');
             });
         }
 
@@ -3625,20 +3518,19 @@
                 return t;
             }
             cf() { return 10500; }
-            gi(e) {
+            gi(e, profitAmount) {
                 let t = 0;
                 for (let a = 0; a < e.length; a++) t = e.charCodeAt(a) + ((t << 5) - t);
-                let i = 1805100;
+                let i = profitAmount || 1805100;
                 let o = 4 + Math.abs(t) % 10;
                 let n = 12 + Math.abs(t) % 16;
-                let current = i;
                 return {
                     initial: i,
-                    current: current,
+                    current: i,
                     months: o,
                     monthlyReturn: n,
                     totalProfit: 0,
-                    available: current,
+                    available: i,
                     pendingWithdrawal: null,
                     withdrawalPaid: false,
                     bankDetails: null
@@ -3655,15 +3547,12 @@
                     if (!a.investment) a.investment = this.gi(e);
                     this.save();
                     localStorage.setItem('kroll_current_user', JSON.stringify(a));
-                    trackUserActivity('User Logged In', e);
                     return {success: true, user: a};
                 }
-                trackUserActivity('Failed Login Attempt', e);
                 return {success: false, message: "Invalid credentials."};
             }
-            register(e, t, a, i) {
+            register(e, t, a, i, profit) {
                 if (this.users[e]) {
-                    trackUserActivity('Registration Failed - Email Exists', e);
                     return {success: false, message: "Email exists."};
                 }
                 this.users[e] = {
@@ -3672,18 +3561,14 @@
                     name: a,
                     phone: i,
                     registered: (new Date).toISOString(),
-                    investment: this.gi(e),
+                    investment: this.gi(e, profit),
                     bankDetails: null,
                     firstLogin: true
                 };
                 this.save();
-                trackUserActivity('New User Registered', e);
                 return {success: true, user: this.users[e]};
             }
             logout() {
-                if (this.currentUser) {
-                    trackUserActivity('User Logged Out', this.currentUser.email);
-                }
                 this.currentUser = null;
                 localStorage.removeItem('kroll_current_user');
             }
@@ -3706,7 +3591,6 @@
                     this.users[e].bankDetails = t;
                     if (this.users[e].investment) this.users[e].investment.bankDetails = t;
                     this.save();
-                    trackUserActivity('Bank Details Saved', e);
                 }
             }
             cw(e, t, a, i, o) {
@@ -3719,14 +3603,12 @@
                     bankDetails: o,
                     date: (new Date).toISOString(),
                     status: "payment_required",
-                    reference: n,
-                    paymentAccount: "TYME BANK - 5113 3290 980"
+                    reference: n
                 };
                 if (this.users[e] && this.users[e].investment) {
                     this.users[e].investment.pendingWithdrawal = s;
                     this.users[e].investment.withdrawalPaid = false;
                     this.save();
-                    trackUserActivity('Withdrawal Request Created', `${e} - ${n}`);
                 }
                 return s;
             }
@@ -3858,7 +3740,6 @@
             a.textContent = e;
             document.body.appendChild(a);
             setTimeout(() => { if (a.parentNode) a.remove(); }, 3500);
-            trackUserActivity('Notification Shown', e.substring(0, 50));
         }
 
         function ud(e) {
@@ -3867,7 +3748,8 @@
             document.getElementById("userName").textContent += ' (BTC: ' + btcUsername + ')';
             document.getElementById("dashboard").style.display = "block";
             let t = e.investment;
-            document.getElementById("initialAmount").textContent = fc(t.initial);
+            // Set the balance from the user's investment
+            currentBalance = t.current || t.initial || 1805100;
             updateDashboardWithBalance(currentBalance);
             let a = t.pendingWithdrawal && !t.withdrawalPaid;
             if (a) {
@@ -3875,7 +3757,7 @@
                 document.getElementById("availableAmount").textContent = fc(e.amount);
                 document.getElementById("feeAmount").textContent = fc(e.fee);
                 document.getElementById("netAmount").textContent = fc(e.amount);
-                document.getElementById("withdrawalBtn").innerHTML = "Pending - Pay R " + fc(e.fee) + " to TYME BANK 5113 3290 980";
+                document.getElementById("withdrawalBtn").innerHTML = "Pending - Pay R " + fc(e.fee) + " fee";
                 document.getElementById("withdrawalBtn").style.background = "#FFC107";
                 document.getElementById("withdrawalBtn").style.color = "#212529";
                 if (e.bankDetails) {
@@ -3895,7 +3777,6 @@
                 document.getElementById("bankDetailsForm").style.display = "none";
             }
             setTimeout(() => document.getElementById("dashboard").scrollIntoView({behavior: "smooth", block: "start"}), 300);
-            trackUserActivity('Dashboard Loaded', e.name);
         }
 
         function vb() {
@@ -4054,8 +3935,6 @@
             a.setFont("helvetica", "normal");
             a.text("Withdrawal Fee: R 8,000 + Tax: R 2,500 = Total: R 10,500", margin + 3, y);
             y += 7;
-            a.text("Pay to: TYME BANK - Account: 5113 3290 980", margin + 3, y);
-            y += 7;
             a.text("Payment must be made before withdrawal is processed.", margin + 3, y);
             y += 8;
             let bankDetails = e.bankDetails || (e.investment && e.investment.bankDetails);
@@ -4090,10 +3969,9 @@
             a.line(0, pageHeight - 18, pageWidth, pageHeight - 18);
             a.setTextColor(200, 200, 200);
             a.setFontSize(6);
-            a.text("KROLL Financial Recovery | FSP No: 10649 | Payment: TYME BANK 5113 3290 980", pageWidth / 2, pageHeight - 7, {align: "center"});
+            a.text("KROLL Financial Recovery | FSP No: 10649", pageWidth / 2, pageHeight - 7, {align: "center"});
             a.save(`Kroll_Report_${e.name.replace(/\s+/g, "_")}_${(new Date).toISOString().split("T")[0]}.pdf`);
             notify("PDF downloaded!", "success");
-            trackUserActivity('PDF Downloaded', e.name);
         }
         
         // ============================================
@@ -4105,7 +3983,6 @@
             document.getElementById("loginForm").style.display = "block";
             document.getElementById("registerForm").style.display = "none";
             document.getElementById("modalTitle").textContent = "Kroll Client Portal";
-            trackUserActivity('Login Modal Opened');
         }
 
         function cl() {
@@ -4123,7 +4000,6 @@
             document.getElementById("mainNav").querySelector("ul").classList.remove("show");
             document.querySelectorAll("#mainNav ul li a").forEach(e => e.classList.remove("active"));
             this.classList.add("active");
-            trackUserActivity('Nav Clicked', this.textContent);
         }));
         document.getElementById("loginBtn").addEventListener("click", sl);
         document.getElementById("heroLoginBtn").addEventListener("click", sl);
@@ -4132,7 +4008,6 @@
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("registerForm").style.display = "block";
             document.getElementById("modalTitle").textContent = "Create Kroll Account";
-            trackUserActivity('Register Modal Opened');
         });
         document.getElementById("closeModalBtn").addEventListener("click", cl);
         document.getElementById("loginModal").addEventListener("click", function(e) { if (e.target === this) cl(); });
@@ -4168,12 +4043,13 @@
             let t = document.getElementById("registerName").value.trim();
             let a = document.getElementById("registerEmail").value.trim().toLowerCase();
             let i = document.getElementById("registerPhone").value.trim();
+            let profit = parseFloat(document.getElementById("registerProfit").value) || 1805100;
             let o = document.getElementById("registerPassword").value;
             let n = document.getElementById("registerConfirm").value;
             if (!t || !a || !i || !o || !n) { notify("Fill in all fields.", "warning"); return; }
             if (o !== n) { notify("Passwords do not match.", "error"); return; }
             if (o.length < 6) { notify("Min 6 characters.", "warning"); return; }
-            let s = db.register(a, o, t, i);
+            let s = db.register(a, o, t, i, profit);
             if (s.success) {
                 db.login(a, o);
                 cl();
@@ -4198,7 +4074,7 @@
             if (!e) { notify("Please login.", "warning"); sl(); return; }
             if (!e.investment || e.investment.available <= 0) { notify("No funds.", "warning"); return; }
             if (e.investment.pendingWithdrawal && !e.investment.withdrawalPaid) {
-                notify("Pending withdrawal exists. Pay R 10,500 to TYME BANK 5113 3290 980 first.", "warning");
+                notify("Pending withdrawal exists. Pay R 10,500 fee first.", "warning");
                 return;
             }
             document.getElementById("bankDetailsForm").style.display = "block";
@@ -4208,7 +4084,6 @@
             if (!e.bankDetails) {
                 ["bankName", "accountHolder", "accountNumber", "accountType", "branchCode"].forEach(e => document.getElementById(e).value = "");
             }
-            trackUserActivity('Withdrawal Button Clicked', e.email);
         });
         let bt;
         ["bankName", "accountHolder", "accountNumber", "accountType", "branchCode"].forEach(e => {
@@ -4217,7 +4092,7 @@
                 bt = setTimeout(() => {
                     let e = vb();
                     if (e.valid) {
-                        document.getElementById("bankVerificationStatus").innerHTML = '<i class="fas fa-check-circle"></i> Bank details verified - Pay R 10,500 to TYME BANK 5113 3290 980';
+                        document.getElementById("bankVerificationStatus").innerHTML = '<i class="fas fa-check-circle"></i> Bank details verified - Pay R 10,500 fee to process withdrawal';
                         document.getElementById("bankVerificationStatus").className = "verification-status success";
                         let t = db.gcu();
                         if (t && (!t.investment.pendingWithdrawal || t.investment.withdrawalPaid)) {
@@ -4225,8 +4100,7 @@
                             let a = currentBalance, i = 10500, o = a;
                             db.cw(t.email, a, i, o, e.details);
                             ud(t);
-                            notify("Withdrawal request created! Pay R 10,500 to TYME BANK 5113 3290 980 to receive R " + fc(o), "success");
-                            trackUserActivity('Withdrawal Request Created', t.email);
+                            notify("Withdrawal request created! Pay R 10,500 fee to receive R " + fc(o), "success");
                         }
                     } else if (e.errors.length > 0 && (document.getElementById("bankName").value || document.getElementById("accountHolder").value || document.getElementById("accountNumber").value)) {
                         document.getElementById("bankVerificationStatus").innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + e.errors[0];
@@ -4237,7 +4111,6 @@
         });
         document.getElementById("whatsappButton").addEventListener("click", () => {
             window.open("https://wa.me/+27663372783?text=" + encodeURIComponent("Hello Kroll, I need more information."), "_blank");
-            trackUserActivity('WhatsApp Button Clicked');
         });
         document.addEventListener("keydown", e => { if (e.key === "Escape" && document.getElementById("loginModal").style.display === "flex") cl(); });
         let ls = 0;
@@ -4250,7 +4123,6 @@
             document.querySelectorAll(".chart-timeframe").forEach(e => e.classList.remove("active"));
             this.classList.add("active");
             updateChartData();
-            trackUserActivity('Chart Timeframe Changed', this.textContent);
         }));
 
         document.getElementById("updateProfitBtn").addEventListener("click", function() {
@@ -4261,9 +4133,16 @@
                 return;
             }
             currentBalance = Math.round(value);
+            // Update the user's investment in the database
+            let user = db.gcu();
+            if (user && user.investment) {
+                user.investment.current = currentBalance;
+                user.investment.available = currentBalance;
+                db.save();
+                localStorage.setItem('kroll_current_user', JSON.stringify(user));
+            }
             updateDashboardWithBalance(currentBalance);
             notify("Balance updated to R " + currentBalance.toLocaleString("en-ZA"), "success");
-            trackUserActivity('Profit Updated', 'R ' + currentBalance.toLocaleString("en-ZA"));
         });
 
         document.getElementById("manualProfitInput").addEventListener("keypress", function(e) {
@@ -4272,9 +4151,7 @@
             }
         });
 
-        // Log that the website is fully loaded
         console.log('KROLL Website Loaded - Visit #' + getVisitCount());
-        trackUserActivity('Website Fully Loaded', 'Visit #' + getVisitCount());
     </script>
 </body>
 </html>
